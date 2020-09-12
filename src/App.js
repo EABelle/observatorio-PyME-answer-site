@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import Header from "./components/Header";
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -16,6 +17,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         {...rest}
         render={(props) => (
             <div>
+                <Header />
                 <Component {...props} />
             </div>
         )}
@@ -38,8 +40,8 @@ function App() {
             <Router>
                 <Switch>
                     <Route path="/login" component={Login} />
-                    <PrivateRoute path="/myQuestionnaires" component={() => (<div>My Questionnaire</div>)} />
-                    <Redirect to={{ pathname: '/myQuestionnaires' }} />
+                    <PrivateRoute path="/misCuestionarios" component={() => (<div>Mis cuestionarioss</div>)} />
+                    <Redirect to={{ pathname: '/misCuestionarios' }} />
                 </Switch>
             </Router>
         </ThemeProvider>

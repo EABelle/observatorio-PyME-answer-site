@@ -90,7 +90,7 @@ export default ({ location }) => {
     const classes = useStyles();
 
     if (redirectToIndex === true) {
-        return <Redirect to={{ pathname: location.state?.from || '/myQuestionnaires' }} />;
+        return <Redirect to={{ pathname: location.state?.from || '/misCuestionarios' }} />;
     }
 
     return (
