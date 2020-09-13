@@ -4,7 +4,13 @@ import config from "./config";
 // import Axios from "axios";
 const Axios = {
     create: () => ({
-        post: () => 'MockedToken'  // mocked method
+        post: (path, { userName, password }) => {
+            if (userName === 'test' && password === 'test')
+                return 'MockedToken';
+            const error = new Error('Not authorized');
+            error.response.status = 401;
+            return error;
+        },  // mocked method
     }),
 };
 //--------------------------------------------------
