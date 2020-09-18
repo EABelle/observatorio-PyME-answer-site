@@ -10,7 +10,7 @@ import logo from "../logo.png";
 import {isAuthenticated, login} from "../services/LoginService";
 import { Redirect } from 'react-router-dom';
 import LoadingBar from "../components/LoadingBar";
-
+import { locationShape } from "react-router-props";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -56,7 +56,7 @@ const getErrorMessage = (code) => (
         : null
 );
 
-export default ({ location }) => {
+export default function Login({ location }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -146,4 +146,8 @@ export default ({ location }) => {
             </div>
         </Container>
     )
+};
+
+Login.propTypes = {
+    location: locationShape
 };
