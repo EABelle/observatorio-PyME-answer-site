@@ -1,11 +1,7 @@
 import FormClient from "../api/FormClient";
 
-export const getMyFormsByStatus = (status, page = 0, size = 10) => (
-    FormClient.getMyForms({
-        status,
-        page,
-        size
-    })
+export const getMyFormsByStatus = (status) => (
+    FormClient.getMyFormsByStatus(status)
 );
 
 const FormService = {

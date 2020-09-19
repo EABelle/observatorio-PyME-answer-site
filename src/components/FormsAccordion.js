@@ -9,7 +9,7 @@ import { STATUS } from '../constants';
 import FormService from "../services/FormService";
 import PropTypes from 'prop-types';
 import LoadingBar from "./LoadingBar";
-import { FormsTable } from "./FormsTable";
+import { FormsGrid } from "./FormsGrid";
 
 const useStyles = status => makeStyles((theme) => ({
   heading: {
@@ -43,16 +43,14 @@ export function FormsAccordion({ status }) {
     const [ forms, setForms ] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [pages, setPages] = useState(0);
 
     const fetchMyForms = () => {
         setError(false);
         setLoading(true);
         FormService.getMyFormsByStatus(status)
-            .then(({data, totalPages}) => {
+            .then(({data}) => {
                 setLoading(false);
                 setForms(data);
-                setPages(totalPages);
             })
             .catch(() => {
                 setLoading(false);
@@ -78,7 +76,7 @@ export function FormsAccordion({ status }) {
                 <Typography className={classes.heading}>{title}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <FormsTable {...{ status, forms, loading, error, pages }} />
+                <FormsGrid {...{ status, forms, loading, error }} />
             </AccordionDetails>
         </Accordion>
     );

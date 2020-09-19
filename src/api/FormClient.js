@@ -3,24 +3,25 @@ import { STATUS } from "../constants";
 import config from "./config";
 import { completeForms, inProgressForms, notStartedForms } from "./__mocks__/form";
 
-const mockedGetMyForms = ({ status, page }) => {
+const mockedGetMyForms = (status) => {
+    console.log(status)
     if (status === STATUS.COMPLETE) {
-        return {data: completeForms, page, totalPages: 1};
+        return {data: completeForms};
     }
     if (status === STATUS.IN_PROGRESS) {
-        return {data: inProgressForms, page, totalPages: 1};
+        return {data: inProgressForms};
     }
     if (status === STATUS.NOT_STARTED) {
-        return {data: notStartedForms, page, totalPages: 1};
+        return {data: notStartedForms};
     }
-    return {data: [...completeForms, ...inProgressForms, ...notStartedForms], page, totalPages: 1}
+    return {data: [...completeForms, ...inProgressForms, ...notStartedForms]}
 };
 
 const Axios = {
     create: () => ({
         get: (path, config) => {
             if (path === '/myForms')
-                return mockedGetMyForms(config);
+                return Promise.resolve(mockedGetMyForms(config.query?.status));
         }
     }),
 };
@@ -30,17 +31,16 @@ const axios = Axios.create({
     baseURL: config.baseURL,
 });
 
-export const getMyForms = async ({ status, page, size }) => {
-    const response = await axios.get('/myForms', {
-        status,
-        page: page || 0,
-        size: size || 10
+export const getMyFormsByStatus = (status) => {
+    return axios.get('/myForms', {
+        query: {
+            status
+        },
     });
-    return response;
 };
 
 const FormClient = {
-    getMyForms,
+    getMyFormsByStatus,
 };
 
 export default FormClient;
