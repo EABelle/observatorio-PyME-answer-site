@@ -8,6 +8,7 @@ import logo from "../logo.png";
 import AccountClient from "../api/AccountClient";
 import {isAuthenticated, logout} from "../services/LoginService";
 import {Redirect} from "react-router-dom";
+import { locationShape } from "react-router-props";
 
 const RedirectToLogin = props => (
     <Redirect to={{
@@ -42,7 +43,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export default ( props ) => {
+export default function Header({ location }) {
 
     const classes = useStyles();
     const [userName, setUserName] = useState();
@@ -80,7 +81,11 @@ export default ( props ) => {
                 </header>
             )
             : (
-                <RedirectToLogin location={props.location} />
+                <RedirectToLogin location={location} />
             )
     )
+};
+
+Header.propTypes = {
+    location: locationShape
 };
