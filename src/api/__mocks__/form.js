@@ -1,4 +1,4 @@
-import { STATUS } from "../../constants";
+import {QUESTION_TYPE, STATUS} from "../../constants";
 
 export const completeForms = [
     {
@@ -106,8 +106,14 @@ export const completeForms = [
     {
         id: '3',
         name: 'Formulario 1',
-        status: STATUS.COMPLETE,
+        status: STATUS.IN_PROGRESS,
         questions: [
+            {
+                type: QUESTION_TYPE.FILE,
+                title: 'Archivo 1',
+                value: null,
+                mandatory: true,
+            },
             {
                 type: 'TEXT',
                 title: 'Titulo',

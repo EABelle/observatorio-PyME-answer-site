@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import ListIcon from '@material-ui/icons/List';
 import Grow from '@material-ui/core/Grow';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
     formSummaryCard: {
@@ -59,7 +60,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 export function FormsGrid({ forms, loading, error }) {
+
     const classes = useStyles();
+    const history = useHistory();
 
     const getEmptyState = () => <div className={classes.emptyState}>No hay formularios</div>;
 
@@ -76,9 +79,11 @@ export function FormsGrid({ forms, loading, error }) {
                     in
                     style={{ transformOrigin: '0' }}
                     timeout={1000 * (index + 1)}
+                    key={form.id}
+                    onClick={() => history.push(`/cuestionario/${form.id}`)}
                 >
-                    <Grid item  className={classes.formSummaryCard} key={form.id}>
-                        <div className={classes.formSummaryImage}>
+                    <Grid item  className={classes.formSummaryCard}>
+                        <div className={classes.formSummaryImage} >
                             <ListIcon fontSize="large" />
                         </div>
                         <div className={classes.rowTitle}>

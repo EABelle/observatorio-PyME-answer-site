@@ -3,3 +3,11 @@ export const STATUS = {
     IN_PROGRESS: 'IN_PROGRESS',
     NOT_STARTED: 'NOT_STARTED'
 };
+
+export const QUESTION_TYPE = {
+    TEXT: 'TEXT',
+    CHOICE: 'CHOICE',
+    NUMBER: 'NUMBER',
+    GROUPED_CHOICE: 'GROUPED_CHOICE',
+    FILE: 'FILE',
+};

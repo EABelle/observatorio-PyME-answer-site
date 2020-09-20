@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
         height: 120,
     },
     items: {
-        maxWidth: 960,
+        width: '90%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',

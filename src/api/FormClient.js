@@ -4,7 +4,7 @@ import config from "./config";
 import { completeForms, inProgressForms, notStartedForms } from "./__mocks__/form";
 
 const mockedGetMyForms = (status) => {
-    console.log(status)
+
     if (status === STATUS.COMPLETE) {
         return {data: completeForms};
     }
@@ -22,7 +22,26 @@ const Axios = {
         get: (path, config) => {
             if (path === '/myForms')
                 return Promise.resolve(mockedGetMyForms(config.query?.status));
-        }
+            if (path === '/forms') {
+                return Promise.resolve({data: mockedGetMyForms().data.find(({id}) => id === config.params?.id)});
+            }
+        },
+        put: (path, form) => {
+            if (path.startsWith('/forms')) {
+                return Promise.resolve({data: form});
+            }
+        },
+        patch: (path, formId) => {
+            if (path.startsWith('/forms')) {
+                return Promise.resolve({
+                    data: {
+                        ...mockedGetMyForms().data.find(({id}) => id === formId),
+                        status: STATUS.COMPLETE,
+                    }
+                });
+            }
+        },
+
     }),
 };
 //--------------------------------------------------
@@ -39,8 +58,29 @@ export const getMyFormsByStatus = (status) => {
     });
 };
 
+export const getFormById = (id) => {
+    return axios.get('/forms', {
+        params: {
+            id
+        },
+    });
+};
+
+export const saveForm = (form) => {
+    return axios.put(`/forms/${form.id}`, form);
+};
+
+export const closeForm = (id) => {
+    return axios.patch(`/forms/${id}`, {
+        status: STATUS.COMPLETE
+    });
+};
+
 const FormClient = {
     getMyFormsByStatus,
+    getFormById,
+    saveForm,
+    closeForm
 };
 
 export default FormClient;

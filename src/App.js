@@ -11,6 +11,7 @@ import {
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Header from "./components/Header";
 import MyForms from "./views/MyForms";
+import FormView from "./views/FormView";
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -42,6 +43,7 @@ function App() {
                 <Switch>
                     <Route path="/login" component={Login} />
                     <PrivateRoute path="/misCuestionarios" component={MyForms} />
+                    <PrivateRoute path="/cuestionario/:id" component={FormView} />
                     <Redirect to={{ pathname: '/misCuestionarios' }} />
                 </Switch>
             </Router>
