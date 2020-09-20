@@ -103,7 +103,6 @@ export default function Login({ location }) {
                 <Card className={classes.loginCard}>
                     <form className={classes.form} onSubmit={handleSubmit}>
                         <TextField
-                            variant="outlined"
                             margin="normal"
                             required
                             fullWidth
@@ -116,7 +115,6 @@ export default function Login({ location }) {
                             onChange={handleEmailChange}
                         />
                         <TextField
-                            variant="outlined"
                             margin="normal"
                             required
                             fullWidth

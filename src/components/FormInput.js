@@ -6,19 +6,8 @@ import Button from '@material-ui/core/Button';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import {makeStyles} from "@material-ui/core/styles";
 
-const useStyles = makeStyles(() => ({
-    groupRow: {
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    }
-}));
-
-export default function FormInput({id, groups, type, onChange, value, name, required, options, restrictions}) {
-
-    const classes = useStyles();
+export default function FormInput({id, type, onChange, value, name, required, options, restrictions, disabled}) {
 
     const handleChange = (event) => {
         let newValue = event.target.value;
@@ -29,11 +18,6 @@ export default function FormInput({id, groups, type, onChange, value, name, requ
             newValue = Number(newValue);
         }
         onChange(newValue);
-    };
-
-    const handleGroupChange = (event, groupIndex) => {
-        const newValue = Number(event.target.value);
-        onChange(newValue, groupIndex);
     };
 
     const handleFilesChange = (event) => {
@@ -49,14 +33,14 @@ export default function FormInput({id, groups, type, onChange, value, name, requ
     );
 
     if (type === QUESTION_TYPE.CHOICE) {
-
         return (
-            <FormControl component="fieldset">
+            <FormControl component="fieldset" disabled={disabled}>
                 <RadioGroup
                     aria-label="gender"
                     name="gender1"
                     value={value}
-                    onChange={handleChange}>
+                    onChange={handleChange}
+                >
                     {
                         options.map((option, index) => <FormControlLabel key={index} value={index} control={<Radio />} label={option} />)
                     }
@@ -65,58 +49,30 @@ export default function FormInput({id, groups, type, onChange, value, name, requ
         )
     }
 
-    if (type === QUESTION_TYPE.GROUPED_CHOICE) {
-
-        return (
-            <>
-                {
-                    groups.map((group, groupIndex) => (
-                        <FormControl component="fieldset" key={groupIndex}>
-                            <RadioGroup
-                                aria-label="gender"
-                                name="gender1"
-                                value={group.value}
-                                onChange={(event) => handleGroupChange(event, groupIndex)}
-                                className={classes.groupRow}
-                                row
-                            >
-                                <span>{group.mandatory && '*'}{group.title}</span>
-                                {
-                                    options.map((option, index) =>
-                                        <FormControlLabel
-                                            key={index}
-                                            value={index}
-                                            control={<Radio />}
-                                            label={option}
-                                            labelPlacement="start"
-                                        />)
-                                }
-                            </RadioGroup>
-                        </FormControl>
-                    ))
-                }
-            </>
-        )
-    }
-
     if (type === QUESTION_TYPE.FILE) {
         return (
-            <Button
-                variant="contained"
-                component="label"
-            >
-                Subir archivo
-                <input
-                    type="file"
-                    onChange={handleFilesChange}
-                />
-            </Button>
+            <div>
+                <Button
+                    disabled={disabled}
+                    color="primary"
+                    variant="contained"
+                    component="label"
+                >
+                    Subir archivo
+                    <input
+                        type="file"
+                        onChange={handleFilesChange}
+                        style={{display: 'none'}}
+                        multiple
+                    />
+                </Button>
+                { value && Object.keys(value).map(k => <div key={k}>{value[k].name}</div>)}
+            </div>
         )
     }
 
     return (
         <TextField
-            variant="outlined"
             margin="normal"
             required={required}
             fullWidth
@@ -127,6 +83,7 @@ export default function FormInput({id, groups, type, onChange, value, name, requ
             value={value}
             onChange={handleChange}
             type={type}
+            disabled={disabled}
             inputProps={getInputProps()}
         />
     )

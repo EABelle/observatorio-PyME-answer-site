@@ -8,6 +8,6 @@ export const QUESTION_TYPE = {
     TEXT: 'TEXT',
     CHOICE: 'CHOICE',
     NUMBER: 'NUMBER',
-    GROUPED_CHOICE: 'GROUPED_CHOICE',
+    GROUPED: 'GROUPED',
     FILE: 'FILE',
 };

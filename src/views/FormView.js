@@ -11,14 +11,19 @@ import SendIcon from '@material-ui/icons/Send';
 import SaveIcon from '@material-ui/icons/Save';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
+import Pdf from 'react-to-pdf';
+import {STATUS} from "../constants";
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 
 const useStyles = makeStyles(theme => ({
     container: {
         marginTop: 24,
         [theme.breakpoints.up('lg')]: {
             marginTop: 24
-        }
+        },
+        maxWidth: 800
     },
     mapContainer: {
         width: '50%'
@@ -59,6 +64,7 @@ export default () => {
     const [canSend, setCanSend] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const history = useHistory();
+    const ref = React.createRef();
 
     const fetchForm = () => {
         setError(false);
@@ -75,9 +81,9 @@ export default () => {
             });
     };
 
-    const handleFormChange = (value, index, groups) => {
-        if (groups) {
-            form.questions[index].groups = groups;
+    const handleFormChange = (value, index, groupIndex) => {
+        if (groupIndex !== undefined) {
+            form.questions[index].questions[groupIndex].value = value;
         } else {
             form.questions[index].value = value;
         }
@@ -93,7 +99,8 @@ export default () => {
 
     const isComplete = (form) => !form.questions.find(question => (
         (question.mandatory && isEmpty(question)) ||
-        (question.groups && question.groups.find(isEmpty))
+        (question.questions && question.questions.find(innerQuestion =>
+            innerQuestion.mandatory && isEmpty(innerQuestion)))
     ));
 
     const showFormSaved = () => {
@@ -147,27 +154,32 @@ export default () => {
     }
     return (
         <>
-            <Container component="main" className={classes.container}>
+            <Container component="main" className={classes.container} ref={ref}>
+                <Button
+                    color="primary"
+                    onClick={() => history.push('/misCuestionarios')}
+                    style={{float: 'right'}}
+                >Volver a Mis Cuestionarios</Button>
                 <Typography variant="h5" align="left" className={classes.title}>{form.name}</Typography>
                 <div>
                     {
                         form.questions.map((question, index) =>
-                            <FormQuestion id={index} key={index} question={question} onChange={(value, groups) => {
-                            handleFormChange(value, index, groups);
+                            <FormQuestion id={index} key={index} question={question} disabled={form.status === STATUS.COMPLETE} onChange={(value, groupIndex) => {
+                            handleFormChange(value, index, groupIndex);
                         }} />)
                     }
                 </div>
             </Container>
-            <div className={classes.FABs}>
+            {form.status !== STATUS.COMPLETE && <div className={classes.FABs}>
                 <div className={classes.FABContainer}>
                     <Fab
                         color="primary"
                         aria-label="save"
-                        size={'medium'}
+                        size="medium"
                         className={classes.FAB}
                         onClick={handleSaveForm}
                     >
-                        <SaveIcon />
+                        <SaveIcon/>
                     </Fab>
                 </div>
                 <div className={classes.FABContainer}>
@@ -179,11 +191,27 @@ export default () => {
                         disabled={!canSend}
                         onClick={handleSendForm}
                     >
-                        <SendIcon />
+                        <SendIcon/>
                         Enviar formulario
                     </Fab>
                 </div>
             </div>
+            }
+            {form.status === STATUS.COMPLETE && <Pdf targetRef={ref} filename="code-example.pdf">
+                {({ toPdf }) => <div className={classes.FABs}>
+                    <div className={classes.FABContainer}>
+                        <Fab
+                            color="primary"
+                            aria-label="save"
+                            className={classes.FAB}
+                            onClick={toPdf}
+                        >
+                            <PictureAsPdfIcon/>
+                        </Fab>
+                    </div>
+                </div>}
+            </Pdf>
+            }
             <Snackbar
                 anchorOrigin={{
                     vertical: 'bottom',

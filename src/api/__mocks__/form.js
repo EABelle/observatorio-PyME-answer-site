@@ -22,25 +22,6 @@ export const completeForms = [
                 value: 1
             },
             {
-                type: 'GROUPED_CHOICE',
-                title: 'Titulo',
-                groups: [
-                    {
-                        title: 'Grupo 1',
-                        value: 2,
-                        mandatory: true,
-                    },
-                    {
-                        title: 'Grupo 2',
-                        value: 1
-                    },
-                ],
-                options: [
-                    'Opcion 1',
-                    'Opcion 2'
-                ],
-            },
-            {
                 type: 'NUMBER',
                 title: 'Titulo',
                 value: 45,
@@ -54,7 +35,7 @@ export const completeForms = [
     },
     {
         id: '2',
-        name: 'Formulario 1',
+        name: 'Formulario 2',
         status: STATUS.COMPLETE,
         questions: [
             {
@@ -73,22 +54,36 @@ export const completeForms = [
                 value: 1
             },
             {
-                type: 'GROUPED_CHOICE',
+                type: 'GROUPED',
                 title: 'Titulo',
-                groups: [
+                description: 'Describa las ventas acumuladas en cada año',
+                questions: [
                     {
-                        title: 'Grupo 1',
-                        value: 2,
+                        type: QUESTION_TYPE.CHOICE,
+                        title: '2019',
+                        options: [ 'Vendió', 'No vendió' ],
                         mandatory: true,
+                        value: null
                     },
                     {
-                        title: 'Grupo 2',
-                        value: 1
+                        type: QUESTION_TYPE.NUMBER,
+                        title: '2019',
+                        mandatory: false,
+                        value: null
                     },
-                ],
-                options: [
-                    'Opcion 1',
-                    'Opcion 2'
+                    {
+                        type: QUESTION_TYPE.CHOICE,
+                        title: '2019',
+                        options: [ 'Vendió', 'No vendió' ],
+                        mandatory: true,
+                        value: null
+                    },
+                    {
+                        type: QUESTION_TYPE.NUMBER,
+                        title: '2020',
+                        mandatory: false,
+                        value: null
+                    },
                 ],
             },
             {
@@ -103,9 +98,12 @@ export const completeForms = [
             },
         ],
     },
+];
+
+export const inProgressForms = [
     {
         id: '3',
-        name: 'Formulario 1',
+        name: 'Formulario 3',
         status: STATUS.IN_PROGRESS,
         questions: [
             {
@@ -130,25 +128,6 @@ export const completeForms = [
                 value: 1
             },
             {
-                type: 'GROUPED_CHOICE',
-                title: 'Titulo',
-                groups: [
-                    {
-                        title: 'Grupo 1',
-                        value: 2,
-                        mandatory: true,
-                    },
-                    {
-                        title: 'Grupo 2',
-                        value: 1
-                    },
-                ],
-                options: [
-                    'Opcion 1',
-                    'Opcion 2'
-                ],
-            },
-            {
                 type: 'NUMBER',
                 title: 'Titulo',
                 value: 45,
@@ -161,7 +140,5 @@ export const completeForms = [
         ],
     },
 ];
-
-export const inProgressForms = [];
 
 export const notStartedForms = [];
