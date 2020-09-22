@@ -1,22 +1,10 @@
 
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Typography
 } from '@material-ui/core';
 import logo from "../logo.png";
-import AccountClient from "../api/AccountClient";
-import {isAuthenticated, logout} from "../services/LoginService";
-import {Redirect} from "react-router-dom";
-import { locationShape } from "react-router-props";
-
-const RedirectToLogin = props => (
-    <Redirect to={{
-        pathname: '/login',
-        state: { from: props.location },
-    }}
-    />
-)
 
 const useStyles = makeStyles(() => ({
     header: {
@@ -43,49 +31,19 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export default function Header({ location }) {
+export default function Header({ onLogout, account }) {
 
     const classes = useStyles();
-    const [userName, setUserName] = useState();
-    const [keepLoggedIn, setKeepLoggedIn] = useState(isAuthenticated());
-
-    useEffect(() => {
-        AccountClient.getMyAccount()
-            .then((accountData) => {
-                setUserName(`${accountData.name} ${accountData.lastName}`);
-            })
-            .catch(err => {
-                if(err.response && err.response.status === 403) {
-                    logout();
-                    setKeepLoggedIn(isAuthenticated());
-                }
-            });
-    },[]);
-
-    const handleClickLogout = () => {
-        logout();
-        setKeepLoggedIn(isAuthenticated());
-    };
 
     return (
-        keepLoggedIn
-            ? (
-                <header className={classes.header}>
-                    <div className={classes.items}>
-                        <img src={logo} className={classes.logo} alt="logo" />
-                        <div className={classes.userContainer}>
-                            <Typography variant="subtitle1">{ userName }</Typography>
-                            <Typography variant="caption" className={classes.logout} onClick={handleClickLogout}>Cerrar Sesión</Typography>
-                        </div>
-                    </div>
-                </header>
-            )
-            : (
-                <RedirectToLogin location={location} />
-            )
+        <header className={classes.header}>
+            <div className={classes.items}>
+                <img src={logo} className={classes.logo} alt="logo" />
+                <div className={classes.userContainer}>
+                    <Typography variant="subtitle1">{ `${account?.name} ${account?.lastName}` }</Typography>
+                    <Typography variant="caption" className={classes.logout} onClick={onLogout}>Cerrar Sesión</Typography>
+                </div>
+            </div>
+        </header>
     )
-};
-
-Header.propTypes = {
-    location: locationShape
 };

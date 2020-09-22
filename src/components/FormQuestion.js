@@ -12,6 +12,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import FormService from "../services/FormService";
+import HelpIcon from '@material-ui/icons/Help';
 
 const useStyles = makeStyles(() => ({
     cardContainer: {
@@ -134,10 +135,13 @@ export default function FormQuestion({id, question, onChange, disabled, setLoadi
                             }
                         </div>
                     }
+                    <div>{ question.disclaimer && <div>{question.disclaimer}</div> }</div>
                 </CardContent>
-                {!disabled && <CardActions>
-                    <Button size="small" onClick={handleSendForm}>Necesito ayuda</Button>
-                </CardActions>}
+                <div style={{padding: 16}}>
+                    {!disabled &&
+                    <HelpIcon fontSize="small" style={{float: 'right', bottom: 4, right: 4}} onClick={handleSendForm} />
+                    }
+                </div>
             </Card>
             <Dialog
                 open={confirmDialog}

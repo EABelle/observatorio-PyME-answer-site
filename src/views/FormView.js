@@ -1,24 +1,17 @@
 import React, {useEffect, useState} from "react";
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {Container, Typography} from '@material-ui/core';
 import {useHistory, useParams} from "react-router-dom";
 import FormService from "../services/FormService";
 import LoadingBar from "../components/LoadingBar";
 import FormQuestion from "../components/FormQuestion";
-import Fab from '@material-ui/core/Fab';
-import SendIcon from '@material-ui/icons/Send';
-import SaveIcon from '@material-ui/icons/Save';
 import Button from '@material-ui/core/Button';
-import Pdf from 'react-to-pdf';
 import {STATUS} from "../constants";
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import FormSnackbar from "../components/FormSnackbar";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import PymeClient from "../api/PymeClient";
+import {SendFormDialog} from "../components/SendFormDialog";
+import {ExportToPDF} from "../components/ExportToPDF";
+import {FormFABs} from "../components/FormFABs";
+import {ExportToPdfFAB} from "../components/ExportToPdfFAB";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -53,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default () => {
+export default ({ account }) => {
 
     const classes = useStyles();
     let { id: formId } = useParams();
@@ -67,7 +60,6 @@ export default () => {
     const [canSend, setCanSend] = useState(false);
     const [confirmDialog, setConfirmDialog] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [pyme, setPyme] = useState(null);
     const history = useHistory();
     const ref = React.createRef();
 
@@ -77,23 +69,21 @@ export default () => {
         try {
             const {data: formData} = await FormService.getFormById(formId);
             setForm(formData);
-            setCanSend(isComplete(formData));
-            const {data: pymeDetails} = await PymeClient.getPymeDetailsById(formData.pymeUserId);
-            setPyme(pymeDetails);
+            setCanSend(formIsComplete(formData));
         } catch(_e) {
             setError(true);
         }
         setLoading(false);
     };
 
-    const handleFormChange = (value, index, groupIndex) => {
+    const handleFormChange = (sectionIndex, index, groupIndex, value) => {
         if (groupIndex !== undefined) {
-            form.questions[index].questions[groupIndex].value = value;
+            form.sections[sectionIndex].questions[index].questions[groupIndex].value = value;
         } else {
-            form.questions[index].value = value;
+            form.sections[sectionIndex].questions[index].value = value;
         }
         setForm({...form});
-        setCanSend(isComplete(form))
+        setCanSend(formIsComplete(form))
     }
 
     const isEmpty = (question) => (
@@ -103,11 +93,15 @@ export default () => {
         (Array.isArray(question.value) && question.value.length === 0)
     );
 
-    const isComplete = (form) => !form.questions.find(question => (
+    const sectionIsComplete = (section) => !section.questions.find(question => (
         (question.mandatory && isEmpty(question)) ||
         (question.questions && question.questions.find(innerQuestion =>
             innerQuestion.mandatory && isEmpty(innerQuestion)))
     ));
+
+    const formIsComplete = (form) => form.sections.every(
+        section => sectionIsComplete(section)
+    );
 
     const showFormSaved = () => {
         setSnackbarMessage('Se guardó el cuestionario correctamente');
@@ -168,106 +162,70 @@ export default () => {
     if(!form) {
         return null
     }
+
+    function getExportToPdfFAB() {
+        return ({toPdf}) => <ExportToPdfFAB classes={classes} onClick={toPdf}/>;
+    }
+
+    function getQuestions() {
+        return form.sections.map((section, sectionIndex) =>
+            <section key={sectionIndex}>
+                <div>{section.title}</div>
+                {
+                    section.questions.map((question, index) =>
+                        <FormQuestion
+                            id={index}
+                            key={`${index}${question.title}`}
+                            question={question}
+                            disabled={form.status === STATUS.COMPLETE}
+                            onChange={(value, groupIndex) =>
+                                handleFormChange(sectionIndex, index, groupIndex, value)}
+                            setError={setError}
+                            setLoading={setLoading}
+                            setMessage={setSnackbarMessage}
+                        />)
+                }
+            </section>);
+    }
+
+    function redirectToIndex() {
+        history.push('/misCuestionarios');
+    }
+
+    function getTitle() {
+        return <Typography
+            variant="h5"
+            align="left"
+            className={classes.title}
+        >{form.name}
+        </Typography>;
+    }
+
     return (
         <>
             <Container component="main" className={classes.container} ref={ref}>
                 <Button
                     color="primary"
-                    onClick={() => history.push('/misCuestionarios')}
+                    onClick={redirectToIndex}
                     style={{float: 'right'}}
                 >Volver a Mis Cuestionarios</Button>
-                <Typography
-                    variant="h5"
-                    align="left"
-                    className={classes.title}
-                >{form.name}
-                </Typography>
-                { JSON.stringify(pyme) }
-                <div>
-                    {
-                        form.questions.map((question, index) =>
-                            <FormQuestion
-                                id={index}
-                                key={index}
-                                question={question}
-                                disabled={form.status === STATUS.COMPLETE}
-                                onChange={(value, groupIndex) =>
-                                    handleFormChange(value, index, groupIndex)}
-                                setError={setError}
-                                setLoading={setLoading}
-                                setMessage={setSnackbarMessage}
-                            />)
-                    }
-                </div>
+                {getTitle()}
+                <div>{getQuestions()}</div>
             </Container>
-            {form.status !== STATUS.COMPLETE && <div className={classes.FABs}>
-                <div className={classes.FABContainer}>
-                    <Fab
-                        color="primary"
-                        aria-label="save"
-                        size="medium"
-                        className={classes.FAB}
-                        onClick={handleSaveForm}
-                    >
-                        <SaveIcon/>
-                    </Fab>
-                </div>
-                <div className={classes.FABContainer}>
-                    <Fab
-                        color="primary"
-                        variant="extended"
-                        aria-label="send"
-                        className={classes.FAB}
-                        disabled={!canSend}
-                        onClick={handleSendForm}
-                    >
-                        <SendIcon/>
-                        Enviar formulario
-                    </Fab>
-                </div>
-            </div>
+            {form.status !== STATUS.COMPLETE &&
+            <FormFABs classes={classes} onClick={handleSaveForm} canSend={canSend} onClick1={handleSendForm}/>
             }
-            {form.status === STATUS.COMPLETE && <Pdf targetRef={ref} filename="code-example.pdf">
-                {({ toPdf }) => <div className={classes.FABs}>
-                    <div className={classes.FABContainer}>
-                        <Fab
-                            color="primary"
-                            aria-label="save"
-                            className={classes.FAB}
-                            onClick={toPdf}
-                        >
-                            <PictureAsPdfIcon/>
-                        </Fab>
-                    </div>
-                </div>}
-            </Pdf>
+            {form.status === STATUS.COMPLETE &&
+            <ExportToPDF
+                targetRef={ref}
+                prop1={getExportToPdfFAB()}
+            />
             }
             <FormSnackbar
                 onClose={clearSnackbarMessage}
                 message={snackbarMessage}
             />
-            <Dialog
-                open={confirmDialog}
-                keepMounted
-                onClose={handleCloseDialog}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle id="alert-dialog-slide-title">¿Confirma el envío el formulario?</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        Esta opción no se puede deshacer.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary">
-                        Cancelar
-                    </Button>
-                    <Button onClick={handleConfirmSendForm} color="primary">
-                        Confirmar
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <SendFormDialog open={confirmDialog} onClose={handleCloseDialog} onClick={handleConfirmSendForm}/>
         </>
     )
 };
