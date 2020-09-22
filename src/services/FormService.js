@@ -17,11 +17,15 @@ export const sendForm = async (form) => {
     return FormClient.closeForm(saveFormResponse.data.id);
 };
 
+export const askForHelp = async (questionId) =>
+    FormClient.saveHelpRequest(questionId);
+
 const FormService = {
     getMyFormsByStatus,
     getFormById,
     saveForm,
     sendForm,
+    askForHelp,
 };
 
 export default FormService;

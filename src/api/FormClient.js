@@ -41,7 +41,13 @@ const Axios = {
                 });
             }
         },
-
+        post: (path) => {
+            if (path.startsWith('/questions')) {
+                return Promise.resolve({
+                    data: { questionId: path.split('/').pop() }
+                });
+            }
+        },
     }),
 };
 //--------------------------------------------------
@@ -76,11 +82,16 @@ export const closeForm = (id) => {
     });
 };
 
+export const saveHelpRequest = (questionId) => {
+    return axios.post(`/questions/${questionId}`);
+};
+
 const FormClient = {
     getMyFormsByStatus,
     getFormById,
     saveForm,
-    closeForm
+    closeForm,
+    saveHelpRequest,
 };
 
 export default FormClient;

@@ -4,6 +4,7 @@ export const completeForms = [
     {
         id: '1',
         name: 'Formulario 1',
+        pymeUserId: 'abc',
         status: STATUS.COMPLETE,
         questions: [
             {
@@ -37,6 +38,7 @@ export const completeForms = [
         id: '2',
         name: 'Formulario 2',
         status: STATUS.COMPLETE,
+        pymeUserId: 'abc',
         questions: [
             {
                 type: 'TEXT',
@@ -103,6 +105,7 @@ export const completeForms = [
 export const inProgressForms = [
     {
         id: '3',
+        pymeUserId: 'abc',
         name: 'Formulario 3',
         status: STATUS.IN_PROGRESS,
         questions: [
@@ -119,6 +122,23 @@ export const inProgressForms = [
                 mandatory: true,
             },
             {
+                type: 'SELECT',
+                title: 'Select',
+                options: [
+                    'Opcion 1',
+                    'Opcion 2'
+                ],
+                value: 1
+            },
+            {
+                type: 'TEXT',
+                title: 'Importe en pesos',
+                value: '',
+                mandatory: true,
+                adornment: '$',
+                isCurrency: true,
+            },
+            {
                 type: 'CHOICE',
                 title: 'Titulo',
                 options: [
@@ -126,6 +146,15 @@ export const inProgressForms = [
                     'Opcion 2'
                 ],
                 value: 1
+            },
+            {
+                type: QUESTION_TYPE.MULTIPLE_CHOICE,
+                title: 'Titulo',
+                options: [
+                    'Opcion 1',
+                    'Opcion 2'
+                ],
+                value: []
             },
             {
                 type: 'NUMBER',
