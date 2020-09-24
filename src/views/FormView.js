@@ -12,6 +12,9 @@ import {SendFormDialog} from "../components/SendFormDialog";
 import {ExportToPDF} from "../components/ExportToPDF";
 import {FormFABs} from "../components/FormFABs";
 import {ExportToPdfFAB} from "../components/ExportToPdfFAB";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -26,6 +29,25 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         marginBottom: 24
+    },
+    actionsContainer: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'flex-end'
+    },
+    sectionTitle: {
+        marginBottom: 24
+    },
+    cardContainer: {
+        marginBottom: 32,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start'
+    },
+    cardContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start'
     },
     FABs: {
         position: 'fixed',
@@ -46,7 +68,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default ({ account }) => {
+export default () => {
 
     const classes = useStyles();
     let { id: formId } = useParams();
@@ -169,8 +191,9 @@ export default ({ account }) => {
 
     function getQuestions() {
         return form.sections.map((section, sectionIndex) =>
-            <section key={sectionIndex}>
-                <div>{section.title}</div>
+            <Card className={classes.cardContainer} key={sectionIndex}>
+                <CardContent className={classes.cardContent}>
+                    <Typography variant="h6" align="left" className={classes.title}>{section.title}</Typography>
                 {
                     section.questions.map((question, index) =>
                         <FormQuestion
@@ -185,31 +208,24 @@ export default ({ account }) => {
                             setMessage={setSnackbarMessage}
                         />)
                 }
-            </section>);
+                </CardContent>
+            </Card>);
     }
 
     function redirectToIndex() {
         history.push('/misCuestionarios');
     }
 
-    function getTitle() {
-        return <Typography
-            variant="h5"
-            align="left"
-            className={classes.title}
-        >{form.name}
-        </Typography>;
-    }
-
     return (
         <>
             <Container component="main" className={classes.container} ref={ref}>
-                <Button
-                    color="primary"
-                    onClick={redirectToIndex}
-                    style={{float: 'right'}}
-                >Volver a Mis Cuestionarios</Button>
-                {getTitle()}
+                <div className={classes.actionsContainer}>
+                    <Button
+                        color="primary"
+                        onClick={redirectToIndex}
+                    ><ArrowBackIosIcon />Volver</Button>
+                </div>
+                <Typography variant="h5" align="left" className={classes.title}>{form.name}</Typography>
                 <div>{getQuestions()}</div>
             </Container>
             {form.status !== STATUS.COMPLETE &&

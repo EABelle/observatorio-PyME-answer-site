@@ -2,9 +2,6 @@ import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import FormInput from "./FormInput";
 import {QUESTION_TYPE} from "../constants";
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -13,32 +10,27 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import FormService from "../services/FormService";
 import HelpIcon from '@material-ui/icons/Help';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles(() => ({
-    cardContainer: {
-        marginBottom: 32,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start'
+    container: {
+        marginBottom: 16
     },
-    cardContent: {
+    questionContainer: {
+        marginBottom: 16,
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start'
-    },
-    formInput: {
-        maxWidth: 480
+        justifyContent: 'flex-end',
     },
     formInputTitle: {
         textAlign: 'left',
         fontWeight: 'bold',
+        marginBottom: 18
     },
     formInputSubtitle: {
         textAlign: 'left',
     },
     formInputDescription: {
         textAlign: 'left',
-
     },
     groupRow: {
         display: 'flex',
@@ -88,9 +80,8 @@ export default function FormQuestion({id, question, onChange, disabled, setLoadi
     }
 
     return (
-        <>
-            <Card className={classes.cardContainer}>
-                <CardContent className={classes.cardContent}>
+        <div className={classes.container}>
+
                     <div className={classes.formInputTitle}>{question.mandatory && '*'}{question.title}</div>
                     {!!question.description && <div className={classes.formInputDescription}>{question.description}</div>}
                     {question.type !== QUESTION_TYPE.GROUPED ?
@@ -107,7 +98,7 @@ export default function FormQuestion({id, question, onChange, disabled, setLoadi
                             disabled={disabled}
                             adornment={question.adornment}
                             isCurrency={question.isCurrency}
-                            inputProps={question.inputProps}
+                            multiline={question.multiline}
                         /> :
                         <div className={classes.multipleAnswerContainer}>
                             {
@@ -116,6 +107,7 @@ export default function FormQuestion({id, question, onChange, disabled, setLoadi
                                         {!!innerQuestion.title && <div className={classes.formInputSubtitle}>{innerQuestion.title}</div>}
                                         {!!innerQuestion.description && <div className={classes.formInputDescription}>{innerQuestion.description}</div>}
                                         <FormInput
+                                            className={classes.formInput}
                                             onChange={(innerValue) => handleChange(innerValue, index)}
                                             id={`${id}${index}`}
                                             name={innerQuestion.title}
@@ -127,7 +119,7 @@ export default function FormQuestion({id, question, onChange, disabled, setLoadi
                                             disabled={disabled}
                                             adornment={question.adornment}
                                             isCurrency={question.isCurrency}
-                                            inputProps={question.inputProps}
+                                            multiline={question.multiline}
                                             key={index}
                                         />
                                     </div>
@@ -136,13 +128,12 @@ export default function FormQuestion({id, question, onChange, disabled, setLoadi
                         </div>
                     }
                     <div>{ question.disclaimer && <div>{question.disclaimer}</div> }</div>
-                </CardContent>
-                <div style={{padding: 16}}>
+                <div className={classes.questionContainer}>
                     {!disabled &&
-                    <HelpIcon fontSize="small" style={{float: 'right', bottom: 4, right: 4}} onClick={handleSendForm} />
+                    <HelpIcon fontSize="small" onClick={handleSendForm} />
                     }
                 </div>
-            </Card>
+            <Divider variant="middle" />
             <Dialog
                 open={confirmDialog}
                 keepMounted
@@ -165,6 +156,6 @@ export default function FormQuestion({id, question, onChange, disabled, setLoadi
                     </Button>
                 </DialogActions>
             </Dialog>
-        </>
+        </div>
     )
 }

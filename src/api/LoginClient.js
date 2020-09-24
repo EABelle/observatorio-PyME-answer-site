@@ -5,7 +5,7 @@ import config from "./config";
 const Axios = {
     create: () => ({
         post: (path, { userName, password }) => {
-            if (userName === 'test' && password === 'test')
+            if (userName === 'testapp' && password === '123')
                 return 'MockedToken';
             const error = new Error('Not authorized');
             error.response.status = 401;

@@ -258,6 +258,91 @@ export const notStartedForms = [
                     mandatory: true
                 },
             ],
-        }]
+        },
+            {
+                title: 'Sección 2',
+                questions: [
+                    {
+                        type: 'SELECT',
+                        title: 'Actividad principal',
+                        value: '',
+                        options: [
+                            "Comercialización al exterior",
+                            "Fábrica",
+                            "Construcción",
+                        ],
+                        mandatory: true,
+                    },
+                    {
+                        type: 'CHOICE',
+                        title: 'Realizó inversiones durante 2019?',
+                        value: '',
+                        options: [
+                            "Sí",
+                            "No",
+                        ],
+                        mandatory: true,
+                    },
+                    {
+                        type: QUESTION_TYPE.FILE,
+                        title: 'Archivo 1',
+                        value: '',
+                        mandatory: true,
+                    },
+                    {
+                        type: 'TEXT',
+                        title: 'Titulo',
+                        value: 'Esta es una respuesta de texto multilínea',
+                        multiline: true,
+                        mandatory: true,
+                    },
+                    {
+                        type: 'SELECT',
+                        title: 'Select',
+                        options: [
+                            'Opcion 1',
+                            'Opcion 2'
+                        ],
+                        value: 1
+                    },
+                    {
+                        type: 'TEXT',
+                        title: 'Importe en pesos',
+                        value: '',
+                        mandatory: true,
+                        adornment: '$',
+                        isCurrency: true,
+                    },
+                    {
+                        type: 'CHOICE',
+                        title: 'Titulo',
+                        options: [
+                            'Opcion 1',
+                            'Opcion 2'
+                        ],
+                        value: 1
+                    },
+                    {
+                        type: QUESTION_TYPE.MULTIPLE_CHOICE,
+                        title: 'Titulo',
+                        options: [
+                            'Opcion 1',
+                            'Opcion 2'
+                        ],
+                        value: []
+                    },
+                    {
+                        type: 'NUMBER',
+                        title: 'Titulo',
+                        value: 45,
+                        restrictions: {
+                            min: 1,
+                            max: null
+                        },
+                        mandatory: true
+                    },
+                ],
+            }
+        ]
     },
 ];

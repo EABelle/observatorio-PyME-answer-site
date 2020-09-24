@@ -3,6 +3,7 @@ import {isAuthenticated, logout} from "../services/LoginService";
 import AccountClient from "../api/AccountClient";
 import {Redirect, Route} from "react-router-dom";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const RedirectToLogin = props => (
     <Redirect to={{
@@ -40,6 +41,7 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
                 <div>
                     <Header onLogout={handleLogout} account={accountData}/>
                     <Component account={accountData} {...props} />
+                    <Footer />
                 </div>
             ) : <RedirectToLogin location={props.location}/>}
         />

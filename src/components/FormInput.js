@@ -11,21 +11,126 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import {makeStyles} from "@material-ui/core/styles";
+import * as PropTypes from "prop-types";
 
+const useStyles = isTextInput => makeStyles(() => ({
+    uploadButtonContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
+    },
+    inputContainer: {
+        maxWidth: !isTextInput && 380,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
+    }
+}))();
+
+function UploadFileInput(props) {
+    return <div className={props.classes.uploadButtonContainer}>
+        <Button
+            disabled={props.disabled}
+            color="primary"
+            variant="contained"
+            component="label"
+        >
+            Subir archivo
+            <input
+                type="file"
+                onChange={props.onChange}
+                style={{display: "none"}}
+                multiple
+            />
+        </Button>
+        {props.value && Object.keys(props.value).map(props.callbackfn)}
+    </div>;
+}
+
+UploadFileInput.propTypes = {
+    classes: PropTypes.any,
+    disabled: PropTypes.any,
+    onChange: PropTypes.func,
+    value: PropTypes.any,
+    callbackfn: PropTypes.func
+};
+
+function MultipleChoiceInput(props) {
+    return <FormControl component="fieldset" disabled={props.disabled}>
+        <FormGroup>
+            {
+                props.map
+            }
+        </FormGroup>
+    </FormControl>;
+}
+
+MultipleChoiceInput.propTypes = {
+    disabled: PropTypes.any,
+    map: PropTypes.any
+};
+
+function SelectInput(props) {
+    return <FormControl>
+        <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={props.value}
+            onChange={props.onChange}
+            variant="outlined"
+        >
+            {
+                props.map
+            }
+        </Select>
+    </FormControl>;
+}
+
+SelectInput.propTypes = {
+    value: PropTypes.any,
+    onChange: PropTypes.func,
+    map: PropTypes.any
+};
+
+function ChoiceInput(props) {
+    return <FormControl component="fieldset" disabled={props.disabled}>
+        <RadioGroup
+            aria-label="gender"
+            name="gender1"
+            value={props.value}
+            onChange={props.onChange}
+        >
+            {
+                props.map
+            }
+        </RadioGroup>
+    </FormControl>;
+}
+
+ChoiceInput.propTypes = {
+    disabled: PropTypes.any,
+    value: PropTypes.any,
+    onChange: PropTypes.func,
+    map: PropTypes.any
+};
 export default function FormInput({
-      id,
-      type,
-      onChange,
-      value,
-      name,
-      required,
-      options,
-      restrictions,
-      disabled,
-      adornment,
-      isCurrency,
-      inputProps
+    id,
+    type,
+    onChange,
+    value,
+    name,
+    required,
+    options,
+    restrictions,
+    disabled,
+    adornment,
+    isCurrency,
+    inputProps,
+    multiline
 }) {
+
+    const classes = useStyles(type === QUESTION_TYPE.TEXT);
 
     const handleChange = (event) => {
         let newValue = event.target.value;
@@ -54,14 +159,17 @@ export default function FormInput({
     };
 
     const isChecked = index => {
-        return value && value.find(i => i === index)
+        return Boolean(index !== undefined && value !== undefined && value.find(i => i === index) !== undefined);
     };
 
     const getInputProps = () => (
-        restrictions && {
+        {
             ...inputProps,
-            min: String(restrictions.min),
-            max: String(restrictions.max),
+            ...(restrictions ? {
+                min: String(restrictions.min),
+                max: String(restrictions.max),
+            } : {})
+
         }
     );
 
@@ -78,92 +186,64 @@ export default function FormInput({
         })
     );
 
-    if (type === QUESTION_TYPE.CHOICE) {
-        return (
-            <FormControl component="fieldset" disabled={disabled}>
-                <RadioGroup
-                    aria-label="gender"
-                    name="gender1"
-                    value={value}
-                    onChange={handleChange}
-                >
-                    {
-                        options.map((option, index) => <FormControlLabel key={index} value={index} control={<Radio />} label={option} />)
-                    }
-                </RadioGroup>
-            </FormControl>
-        )
-    }
+    function getInput() {
+        if (type === QUESTION_TYPE.CHOICE) {
+            return (
+                <ChoiceInput disabled={disabled} value={value} onChange={handleChange}
+                             map={options.map((option, index) => <FormControlLabel key={index} value={index}
+                                                                                   control={<Radio/>}
+                                                                                   label={option}/>)}/>
+            )
+        }
 
-    if (type === QUESTION_TYPE.SELECT) {
-        return(<FormControl>
-            <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+        if (type === QUESTION_TYPE.SELECT) {
+            return (
+                <SelectInput value={value} onChange={handleChange}
+                             map={options.map((option, index) => <MenuItem key={index}
+                                                                           value={index}>{option}</MenuItem>)}/>
+            )
+        }
+
+        if (type === QUESTION_TYPE.MULTIPLE_CHOICE) {
+            return (
+                <MultipleChoiceInput disabled={disabled} map={options.map((option, index) =>
+                    <FormControlLabel
+                        key={index}
+                        control={<Checkbox value={index} checked={isChecked(index)}
+                                           onChange={() => handleCheckboxChange(index)}/>}
+                        label={option}
+                    />)}/>
+            )
+        }
+
+        if (type === QUESTION_TYPE.FILE) {
+            return (
+                <UploadFileInput classes={classes} disabled={disabled} onChange={handleFilesChange} value={value}
+                                 callbackfn={k => <div key={k}>{value[k].name}</div>}/>
+            )
+        }
+
+        return (
+            <TextField
+                margin="normal"
+                required={required}
+                fullWidth
+                id={`${id}`}
+                label="Respuesta"
+                name={name}
+                autoFocus
                 value={value}
                 onChange={handleChange}
-            >
-                {
-                    options.map((option, index) => <MenuItem key={index} value={index}>{option}</MenuItem>)
-                }
-            </Select>
-        </FormControl>)
-    }
-
-    if (type === QUESTION_TYPE.MULTIPLE_CHOICE) {
-        return (
-            <FormControl component="fieldset" disabled={disabled}>
-                <FormGroup>
-                    {
-                        options.map((option, index) =>
-                            <FormControlLabel
-                                key={index}
-                                control={<Checkbox value={index} checked={isChecked(index)} onChange={() => handleCheckboxChange(index)} />}
-                                label={option}
-                            />)
-                    }
-                </FormGroup>
-            </FormControl>
+                type={type}
+                disabled={disabled}
+                multiline={multiline}
+                rows={multiline && 4}
+                variant="outlined"
+                inputProps={getInputProps()}
+                {...getMUIInputProps()}
+            />
         )
     }
 
-    if (type === QUESTION_TYPE.FILE) {
-        return (
-            <div>
-                <Button
-                    disabled={disabled}
-                    color="primary"
-                    variant="contained"
-                    component="label"
-                >
-                    Subir archivo
-                    <input
-                        type="file"
-                        onChange={handleFilesChange}
-                        style={{display: 'none'}}
-                        multiple
-                    />
-                </Button>
-                { value && Object.keys(value).map(k => <div key={k}>{value[k].name}</div>)}
-            </div>
-        )
-    }
-
-    return (
-        <TextField
-            margin="normal"
-            required={required}
-            fullWidth
-            id={`${id}`}
-            label="Respuesta"
-            name={name}
-            autoFocus
-            value={value}
-            onChange={handleChange}
-            type={type}
-            disabled={disabled}
-            inputProps={getInputProps()}
-            {...getMUIInputProps()}
-        />
-    )
+    return <div className={classes.inputContainer}>{getInput()}</div>;
 }
