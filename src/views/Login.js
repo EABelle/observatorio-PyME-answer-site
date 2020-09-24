@@ -45,6 +45,9 @@ const useStyles = makeStyles(theme => ({
         margin: '12px auto',
         textAlign: 'center',
         color: '#f52F41'
+    },
+    submit: {
+        marginTop: '16px',
     }
 }));
 
