@@ -216,6 +216,17 @@ export default () => {
         history.push('/misCuestionarios');
     }
 
+    function getFABs() {
+        if(form.status !== STATUS.COMPLETE)
+            return (<FormFABs classes={classes} onClickSave={handleSaveForm} canSend={canSend} onClickSend={handleSendForm}/>)
+        return (
+            <ExportToPDF
+                targetRef={ref}
+                prop1={getExportToPdfFAB()}
+            />
+        )
+    }
+
     return (
         <>
             <Container component="main" className={classes.container} ref={ref}>
@@ -228,20 +239,12 @@ export default () => {
                 <Typography variant="h5" align="left" className={classes.title}>{form.name}</Typography>
                 <div>{getQuestions()}</div>
             </Container>
-            {form.status !== STATUS.COMPLETE &&
-            <FormFABs classes={classes} onClick={handleSaveForm} canSend={canSend} onClick1={handleSendForm}/>
-            }
-            {form.status === STATUS.COMPLETE &&
-            <ExportToPDF
-                targetRef={ref}
-                prop1={getExportToPdfFAB()}
-            />
-            }
             <FormSnackbar
                 onClose={clearSnackbarMessage}
                 message={snackbarMessage}
             />
             <SendFormDialog open={confirmDialog} onClose={handleCloseDialog} onClick={handleConfirmSendForm}/>
+            {getFABs()}
         </>
     )
 };

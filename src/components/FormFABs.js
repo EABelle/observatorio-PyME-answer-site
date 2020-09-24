@@ -12,7 +12,7 @@ export function FormFABs(props) {
                 aria-label="save"
                 size="medium"
                 className={props.classes.FAB}
-                onClick={props.onClick}
+                onClick={props.onClickSave}
             >
                 <SaveIcon/>
             </Fab>
@@ -24,7 +24,7 @@ export function FormFABs(props) {
                 aria-label="send"
                 className={props.classes.FAB}
                 disabled={!props.canSend}
-                onClick={props.onClick1}
+                onClick={props.onClickSend}
             >
                 <SendIcon/>
                 Enviar formulario
