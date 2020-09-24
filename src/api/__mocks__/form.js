@@ -2,265 +2,79 @@ import {QUESTION_TYPE, STATUS} from "../../constants";
 
 export const completeForms = [
     {
-        id: '1',
-        name: 'Formulario 1',
-        userId: 'abc',
-        status: STATUS.COMPLETE,
-        questions: [
-            {
-                type: 'TEXT',
-                title: 'Titulo',
-                value: 'Esta es una respuesta de texto',
-                mandatory: true,
-            },
-            {
-                type: 'CHOICE',
-                title: 'Titulo',
-                options: [
-                    'Opcion 1',
-                    'Opcion 2'
-                ],
-                value: 1
-            },
-            {
-                type: 'NUMBER',
-                title: 'Titulo',
-                value: 45,
-                restrictions: {
-                    min: 1,
-                    max: null
-                },
-                mandatory: true
-            },
-        ],
-    },
-    {
-        id: '2',
-        name: 'Formulario 2',
-        status: STATUS.COMPLETE,
-        userId: 'abc',
-        questions: [
-            {
-                type: 'TEXT',
-                title: 'Titulo',
-                value: 'Esta es una respuesta de texto',
-                mandatory: true,
-            },
-            {
-                type: 'CHOICE',
-                title: 'Titulo',
-                options: [
-                    'Opcion 1',
-                    'Opcion 2'
-                ],
-                value: 1
-            },
-            {
-                type: 'GROUPED',
-                title: 'Titulo',
-                description: 'Describa las ventas acumuladas en cada año',
-                questions: [
-                    {
-                        type: QUESTION_TYPE.CHOICE,
-                        title: '2019',
-                        options: [ 'Vendió', 'No vendió' ],
-                        mandatory: true,
-                        value: null
-                    },
-                    {
-                        type: QUESTION_TYPE.NUMBER,
-                        title: '2019',
-                        mandatory: false,
-                        value: null
-                    },
-                    {
-                        type: QUESTION_TYPE.CHOICE,
-                        title: '2019',
-                        options: [ 'Vendió', 'No vendió' ],
-                        mandatory: true,
-                        value: null
-                    },
-                    {
-                        type: QUESTION_TYPE.NUMBER,
-                        title: '2020',
-                        mandatory: false,
-                        value: null
-                    },
-                ],
-            },
-            {
-                type: 'NUMBER',
-                title: 'Titulo',
-                value: 45,
-                restrictions: {
-                    min: 1,
-                    max: null
-                },
-                mandatory: true
-            },
-        ],
-    },
-];
-
-export const inProgressForms = [
-    {
-        id: '3',
-        userId: 'abc',
-        name: 'Formulario 3',
-        status: STATUS.IN_PROGRESS,
-        questions: [
-            {
-                type: QUESTION_TYPE.FILE,
-                title: 'Archivo 1',
-                value: null,
-                mandatory: true,
-            },
-            {
-                type: 'TEXT',
-                title: 'Titulo',
-                value: 'Esta es una respuesta de texto',
-                mandatory: true,
-            },
-            {
-                type: 'SELECT',
-                title: 'Select',
-                options: [
-                    'Opcion 1',
-                    'Opcion 2'
-                ],
-                value: 1
-            },
-            {
-                type: 'TEXT',
-                title: 'Importe en pesos',
-                value: '',
-                mandatory: true,
-                adornment: '$',
-                isCurrency: true,
-            },
-            {
-                type: 'CHOICE',
-                title: 'Titulo',
-                options: [
-                    'Opcion 1',
-                    'Opcion 2'
-                ],
-                value: 1
-            },
-            {
-                type: QUESTION_TYPE.MULTIPLE_CHOICE,
-                title: 'Titulo',
-                options: [
-                    'Opcion 1',
-                    'Opcion 2'
-                ],
-                value: []
-            },
-            {
-                type: 'NUMBER',
-                title: 'Titulo',
-                value: 45,
-                restrictions: {
-                    min: 1,
-                    max: null
-                },
-                mandatory: true
-            },
-        ],
-    },
-];
-
-export const notStartedForms = [
-    {
-        id: '4',
+        id: '5',
         userId: 'abcd',
         name: 'Cuestionario sobre la empresa',
-        status: STATUS.NOT_STARTED,
+        description: 'Este es un cuestinonario sobre la empresa',
+        status: STATUS.COMPLETE,
         sections: [{
-            title: 'Sección 1',
+            title: 'Datos de Identificación de la Empresa',
+            description: 'Ingresá todos los datos',
             questions: [
                 {
-                    type: 'SELECT',
-                    title: 'Actividad principal',
-                    value: '',
-                    options: [
-                        "Comercialización al exterior",
-                        "Fábrica",
-                        "Construcción",
-                    ],
-                    mandatory: true,
-                },
-                {
-                    type: 'CHOICE',
-                    title: 'Realizó inversiones durante 2019?',
-                    value: '',
-                    options: [
-                        "Sí",
-                        "No",
-                    ],
-                    mandatory: true,
-                },
-                {
-                    type: QUESTION_TYPE.FILE,
-                    title: 'Archivo 1',
+                    type: 'TEXT',
+                    title: 'Nombre o razón social de la empresa',
                     value: '',
                     mandatory: true,
                 },
                 {
                     type: 'TEXT',
-                    title: 'Titulo',
-                    value: 'Esta es una respuesta de texto',
+                    title: 'CUIT',
+                    value: '',
                     mandatory: true,
-                },
-                {
-                    type: 'SELECT',
-                    title: 'Select',
-                    options: [
-                        'Opcion 1',
-                        'Opcion 2'
-                    ],
-                    value: 1
                 },
                 {
                     type: 'TEXT',
-                    title: 'Importe en pesos',
+                    title: 'Domicilio',
                     value: '',
                     mandatory: true,
-                    adornment: '$',
-                    isCurrency: true,
                 },
                 {
-                    type: 'CHOICE',
-                    title: 'Titulo',
-                    options: [
-                        'Opcion 1',
-                        'Opcion 2'
-                    ],
-                    value: 1
+                    type: 'TEXT',
+                    title: 'CP',
+                    value: '',
+                    mandatory: true,
                 },
                 {
-                    type: QUESTION_TYPE.MULTIPLE_CHOICE,
-                    title: 'Titulo',
-                    options: [
-                        'Opcion 1',
-                        'Opcion 2'
-                    ],
-                    value: []
+                    type: 'TEXT',
+                    title: 'Localidad',
+                    value: '',
+                    mandatory: true,
                 },
                 {
-                    type: 'NUMBER',
-                    title: 'Titulo',
-                    value: 45,
-                    restrictions: {
-                        min: 1,
-                        max: null
-                    },
-                    mandatory: true
+                    type: 'TEXT',
+                    title: 'Partido / departamento',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'Provincia',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'Teléfono',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'email',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'Sitio web',
+                    value: '',
+                    mandatory: true,
                 },
             ],
         },
             {
-                title: 'Sección 2',
+                title: 'Sección A: Características generales de la emppresa',
                 questions: [
                     {
                         type: 'SELECT',
@@ -271,12 +85,13 @@ export const notStartedForms = [
                             "Fábrica",
                             "Construcción",
                         ],
+                        description: '(*) Si la empresa factura por horas o distancia recorrida',
                         mandatory: true,
                     },
                     {
                         type: 'CHOICE',
                         title: 'Realizó inversiones durante 2019?',
-                        value: '',
+                        value: 1,
                         options: [
                             "Sí",
                             "No",
@@ -291,55 +106,219 @@ export const notStartedForms = [
                     },
                     {
                         type: 'TEXT',
-                        title: 'Titulo',
-                        value: 'Esta es una respuesta de texto multilínea',
-                        multiline: true,
-                        mandatory: true,
-                    },
-                    {
-                        type: 'SELECT',
-                        title: 'Select',
-                        options: [
-                            'Opcion 1',
-                            'Opcion 2'
-                        ],
-                        value: 1
-                    },
-                    {
-                        type: 'TEXT',
-                        title: 'Importe en pesos',
+                        title: '¿En qué invirtió?',
                         value: '',
-                        mandatory: true,
-                        adornment: '$',
-                        isCurrency: true,
+                        multiline: true,
                     },
                     {
-                        type: 'CHOICE',
-                        title: 'Titulo',
-                        options: [
-                            'Opcion 1',
-                            'Opcion 2'
+                        type: QUESTION_TYPE.GROUPED,
+                        title: '¿En qué invirtió?',
+                        questions: [
+                            {
+                                type: QUESTION_TYPE.TEXT,
+                                title: 'Reinversión de utilidades',
+                                value: '',
+                                adornment: '%'
+                            },
+                            {
+                                type: QUESTION_TYPE.TEXT,
+                                title: 'Aportes',
+                                value: '',
+                                adornment: '%'
+                            },
+                            {
+                                type: QUESTION_TYPE.TEXT,
+                                title: 'Programas públicos',
+                                value: '',
+                                adornment: '%'
+                            },
+                            {
+                                type: QUESTION_TYPE.TEXT,
+                                title: 'Otros',
+                                value: '',
+                                adornment: '%'
+                            },
+                            {
+                                type: QUESTION_TYPE.TEXT,
+                                title: 'Especificar "Otros"',
+                                value: '',
+                            },
                         ],
-                        value: 1
-                    },
-                    {
-                        type: QUESTION_TYPE.MULTIPLE_CHOICE,
-                        title: 'Titulo',
-                        options: [
-                            'Opcion 1',
-                            'Opcion 2'
-                        ],
-                        value: []
                     },
                     {
                         type: 'NUMBER',
-                        title: 'Titulo',
-                        value: 45,
+                        title: '¿En qué año invirtió?',
+                        description: 'Min: 1980 / Max: 2020',
+                        value: 2020,
                         restrictions: {
-                            min: 1,
-                            max: null
-                        },
-                        mandatory: true
+                            min: 1980,
+                            max: 2020
+                        }
+                    },
+                ],
+            }
+        ]
+    },
+];
+
+export const inProgressForms = [
+];
+
+export const notStartedForms = [
+    {
+        id: '4',
+        userId: 'abcd',
+        name: 'Cuestionario sobre la empresa',
+        description: 'Este es un cuestinonario sobre la empresa',
+        status: STATUS.NOT_STARTED,
+        sections: [{
+            title: 'Datos de Identificación de la Empresa',
+            description: 'Ingresá todos los datos',
+            questions: [
+                {
+                    type: 'TEXT',
+                    title: 'Nombre o razón social de la empresa',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'CUIT',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'Domicilio',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'CP',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'Localidad',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'Partido / departamento',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'Provincia',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'Teléfono',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'email',
+                    value: '',
+                    mandatory: true,
+                },
+                {
+                    type: 'TEXT',
+                    title: 'Sitio web',
+                    value: '',
+                    mandatory: true,
+                },
+            ],
+        },
+            {
+                title: 'Sección A: Características generales de la emppresa',
+                questions: [
+                    {
+                        type: 'SELECT',
+                        title: 'Actividad principal',
+                        value: '',
+                        options: [
+                            "Comercialización al exterior",
+                            "Fábrica",
+                            "Construcción",
+                        ],
+                        description: 'Elija una',
+                        disclaimer: '(*) Si la empresa factura por horas o distancia recorrida, considerarlo en la facturación final',
+                        mandatory: true,
+                    },
+                    {
+                        type: 'CHOICE',
+                        title: 'Realizó inversiones durante 2019?',
+                        value: 1,
+                        options: [
+                            "Sí",
+                            "No",
+                        ],
+                        mandatory: true,
+                    },
+                    {
+                        type: QUESTION_TYPE.FILE,
+                        title: 'Archivo 1',
+                        value: '',
+                        mandatory: true,
+                    },
+                    {
+                        type: 'TEXT',
+                        title: '¿En qué invirtió?',
+                        value: '',
+                        multiline: true,
+                    },
+                    {
+                        type: QUESTION_TYPE.GROUPED,
+                        title: '¿En qué invirtió?',
+                        questions: [
+                            {
+                                type: QUESTION_TYPE.TEXT,
+                                title: 'Reinversión de utilidades',
+                                value: '',
+                                adornment: '%'
+                            },
+                            {
+                                type: QUESTION_TYPE.TEXT,
+                                title: 'Aportes',
+                                value: '',
+                                adornment: '%'
+                            },
+                            {
+                                type: QUESTION_TYPE.TEXT,
+                                title: 'Programas públicos',
+                                value: '',
+                                adornment: '%'
+                            },
+                            {
+                                type: QUESTION_TYPE.TEXT,
+                                title: 'Otros',
+                                value: '',
+                                adornment: '%'
+                            },
+                            {
+                                type: QUESTION_TYPE.TEXT,
+                                title: 'Especificar "Otros"',
+                                value: '',
+                            },
+                        ],
+                    },
+                    {
+                        type: 'NUMBER',
+                        title: '¿En qué año invirtió?',
+                        description: 'Min: 1980 / Max: 2020',
+                        value: 2020,
+                        restrictions: {
+                            min: 1980,
+                            max: 2020
+                        }
                     },
                 ],
             }

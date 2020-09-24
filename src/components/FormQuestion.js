@@ -21,15 +21,19 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         justifyContent: 'flex-end',
     },
+    formInputDescription: {
+        marginBottom: 16,
+        textAlign: 'left',
+        width: '100%',
+        fontStyle: 'italic',
+        fontSize: 14
+    },
     formInputTitle: {
         textAlign: 'left',
         fontWeight: 'bold',
-        marginBottom: 18
+        marginBottom: 4
     },
     formInputSubtitle: {
-        textAlign: 'left',
-    },
-    formInputDescription: {
         textAlign: 'left',
     },
     groupRow: {
@@ -47,7 +51,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export default function FormQuestion({id, question, onChange, disabled, setLoading, setMessage, setError}) {
+export default function FormQuestion({id, question, onChange, disabled, setLoading, setMessage, setError, sectionIndex}) {
 
     const classes = useStyles();
 
@@ -79,61 +83,71 @@ export default function FormQuestion({id, question, onChange, disabled, setLoadi
             });
     }
 
+    function getQuestionTitle() {
+        return `${question.mandatory ? '*' : ''}${sectionIndex + 1}.${id + 1}. ${question.title}`;
+    }
+
+    function getInnerQuestionTitle(innerQuestion, index) {
+        return `${innerQuestion.mandatory ? '*' : ''}${sectionIndex + 1}.${id + 1}.${index + 1}. ${innerQuestion.title}`;
+    }
+
     return (
         <div className={classes.container}>
-
-                    <div className={classes.formInputTitle}>{question.mandatory && '*'}{question.title}</div>
-                    {!!question.description && <div className={classes.formInputDescription}>{question.description}</div>}
-                    {question.type !== QUESTION_TYPE.GROUPED ?
-                        <FormInput
-                            className={classes.formInput}
-                            onChange={handleChange}
-                            id={`${id}`}
-                            name={question.title}
-                            required={question.mandatory}
-                            value={question.value}
-                            type={question.type}
-                            options={question.options}
-                            restrictions={question.restrictions}
-                            disabled={disabled}
-                            adornment={question.adornment}
-                            isCurrency={question.isCurrency}
-                            multiline={question.multiline}
-                        /> :
-                        <div className={classes.multipleAnswerContainer}>
-                            {
-                                question.questions.map((innerQuestion, index) => (
-                                    <div className={classes.groupRow} key={index}>
-                                        {!!innerQuestion.title && <div className={classes.formInputSubtitle}>{innerQuestion.title}</div>}
-                                        {!!innerQuestion.description && <div className={classes.formInputDescription}>{innerQuestion.description}</div>}
-                                        <FormInput
-                                            className={classes.formInput}
-                                            onChange={(innerValue) => handleChange(innerValue, index)}
-                                            id={`${id}${index}`}
-                                            name={innerQuestion.title}
-                                            required={innerQuestion.mandatory}
-                                            value={innerQuestion.value}
-                                            type={innerQuestion.type}
-                                            options={innerQuestion.options}
-                                            restrictions={innerQuestion.restrictions}
-                                            disabled={disabled}
-                                            adornment={question.adornment}
-                                            isCurrency={question.isCurrency}
-                                            multiline={question.multiline}
-                                            key={index}
-                                        />
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    }
-                    <div>{ question.disclaimer && <div>{question.disclaimer}</div> }</div>
-                <div className={classes.questionContainer}>
-                    {!disabled &&
-                    <HelpIcon fontSize="small" onClick={handleSendForm} />
+            <div className={classes.formInputTitle}>{getQuestionTitle()}</div>
+            {!!question.description && <div className={classes.formInputDescription}>{question.description}</div>}
+            {question.type !== QUESTION_TYPE.GROUPED ?
+                <FormInput
+                    className={classes.formInput}
+                    onChange={handleChange}
+                    id={`${id}`}
+                    name={question.title}
+                    required={question.mandatory}
+                    value={question.value}
+                    type={question.type}
+                    options={question.options}
+                    restrictions={question.restrictions}
+                    disabled={disabled}
+                    adornment={question.adornment}
+                    isCurrency={question.isCurrency}
+                    multiline={question.multiline}
+                    disclaimer={question.disclaimer}
+                /> :
+                <div className={classes.multipleAnswerContainer}>
+                    {
+                        question.questions.map((innerQuestion, index) => (
+                            <div className={classes.groupRow} key={index}>
+                                {!!innerQuestion.title && <div
+                                    className={classes.formInputSubtitle}>{getInnerQuestionTitle(innerQuestion, index)}</div>}
+                                {!!innerQuestion.description &&
+                                <div className={classes.formInputDescription}>{innerQuestion.description}</div>}
+                                <FormInput
+                                    className={classes.formInput}
+                                    onChange={(innerValue) => handleChange(innerValue, index)}
+                                    id={`${id}${index}`}
+                                    name={innerQuestion.title}
+                                    required={innerQuestion.mandatory}
+                                    value={innerQuestion.value}
+                                    type={innerQuestion.type}
+                                    options={innerQuestion.options}
+                                    restrictions={innerQuestion.restrictions}
+                                    disabled={disabled}
+                                    adornment={question.adornment}
+                                    isCurrency={question.isCurrency}
+                                    multiline={question.multiline}
+                                    disclaimer={question.disclaimer}
+                                    key={index}
+                                />
+                            </div>
+                        ))
                     }
                 </div>
-            <Divider variant="middle" />
+            }
+            <div className={classes.questionContainer}>
+                {!disabled &&
+                <HelpIcon fontSize="small" onClick={handleSendForm}/>
+                }
+            </div>
+            <Divider variant="middle"/>
             <Dialog
                 open={confirmDialog}
                 keepMounted
@@ -144,7 +158,8 @@ export default function FormQuestion({id, question, onChange, disabled, setLoadi
                 <DialogTitle id="alert-dialog-slide-title">¿Necesitás ayuda?</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Al aceptar este diálogo, un representante va a contactarse con vos telefónicamente dentro de las siguientes 24hs.
+                        Al aceptar este diálogo, un representante va a contactarse con vos telefónicamente dentro de las
+                        siguientes 24hs.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

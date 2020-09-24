@@ -9,7 +9,6 @@ import Button from '@material-ui/core/Button';
 import {STATUS} from "../constants";
 import FormSnackbar from "../components/FormSnackbar";
 import {SendFormDialog} from "../components/SendFormDialog";
-import {ExportToPDF} from "../components/ExportToPDF";
 import {FormFABs} from "../components/FormFABs";
 import {ExportToPdfFAB} from "../components/ExportToPdfFAB";
 import Card from "@material-ui/core/Card";
@@ -28,7 +27,20 @@ const useStyles = makeStyles(theme => ({
         width: '50%'
     },
     title: {
-        marginBottom: 24
+        marginBottom: 12,
+        fontWeight: 'bold'
+    },
+    description: {
+        marginBottom: 16,
+        textAlign: 'left',
+        width: '100%',
+        fontSize: 16
+    },
+    sectionDescription: {
+        marginBottom: 16,
+        textAlign: 'left',
+        width: '100%',
+        fontSize: 16
     },
     actionsContainer: {
         width: '100%',
@@ -83,7 +95,6 @@ export default () => {
     const [confirmDialog, setConfirmDialog] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const history = useHistory();
-    const ref = React.createRef();
 
     const fetch = async () => {
         setError(false);
@@ -185,29 +196,33 @@ export default () => {
         return null
     }
 
-    function getExportToPdfFAB() {
-        return ({toPdf}) => <ExportToPdfFAB classes={classes} onClick={toPdf}/>;
+    function getTitle(sectionIndex, section) {
+        return <>{`${sectionIndex + 1}. ${section.title}`}</>;
     }
 
     function getQuestions() {
         return form.sections.map((section, sectionIndex) =>
             <Card className={classes.cardContainer} key={sectionIndex}>
                 <CardContent className={classes.cardContent}>
-                    <Typography variant="h6" align="left" className={classes.title}>{section.title}</Typography>
-                {
-                    section.questions.map((question, index) =>
-                        <FormQuestion
-                            id={index}
-                            key={`${index}${question.title}`}
-                            question={question}
-                            disabled={form.status === STATUS.COMPLETE}
-                            onChange={(value, groupIndex) =>
-                                handleFormChange(sectionIndex, index, groupIndex, value)}
-                            setError={setError}
-                            setLoading={setLoading}
-                            setMessage={setSnackbarMessage}
-                        />)
-                }
+                    <Typography variant="h6" align="left"
+                                className={classes.title}>{getTitle(sectionIndex, section)}</Typography>
+                    <Typography align="left"
+                                className={classes.sectionDescription}>{section.description}</Typography>
+                    {
+                        section.questions.map((question, index) =>
+                            <FormQuestion
+                                sectionIndex={sectionIndex}
+                                id={index}
+                                key={`${index}${question.title}`}
+                                question={question}
+                                disabled={form.status === STATUS.COMPLETE}
+                                onChange={(value, groupIndex) =>
+                                    handleFormChange(sectionIndex, index, groupIndex, value)}
+                                setError={setError}
+                                setLoading={setLoading}
+                                setMessage={setSnackbarMessage}
+                            />)
+                    }
                 </CardContent>
             </Card>);
     }
@@ -218,32 +233,39 @@ export default () => {
 
     function getFABs() {
         if(form.status !== STATUS.COMPLETE)
-            return (<FormFABs classes={classes} onClickSave={handleSaveForm} canSend={canSend} onClickSend={handleSendForm}/>)
-        return (
-            <ExportToPDF
-                targetRef={ref}
-                prop1={getExportToPdfFAB()}
-            />
-        )
+            return (
+                <FormFABs
+                    classes={classes}
+                    onClickSave={handleSaveForm}
+                    canSend={canSend}
+                    onClickSend={handleSendForm}
+                />
+                )
+        return <ExportToPdfFAB classes={classes} />
     }
 
     return (
         <>
-            <Container component="main" className={classes.container} ref={ref}>
-                <div className={classes.actionsContainer}>
-                    <Button
-                        color="primary"
-                        onClick={redirectToIndex}
-                    ><ArrowBackIosIcon />Volver</Button>
-                </div>
+            <div className={classes.actionsContainer}>
+                <Button
+                    color="primary"
+                    onClick={redirectToIndex}
+                ><ArrowBackIosIcon />Volver</Button>
+            </div>
+            <Container component="main" className={classes.container} id="exportable">
                 <Typography variant="h5" align="left" className={classes.title}>{form.name}</Typography>
+                <Typography align="left" className={classes.description}>{form.description}</Typography>
                 <div>{getQuestions()}</div>
             </Container>
             <FormSnackbar
                 onClose={clearSnackbarMessage}
                 message={snackbarMessage}
             />
-            <SendFormDialog open={confirmDialog} onClose={handleCloseDialog} onClick={handleConfirmSendForm}/>
+            <SendFormDialog
+                open={confirmDialog}
+                onClose={handleCloseDialog}
+                onClick={handleConfirmSendForm}
+            />
             {getFABs()}
         </>
     )

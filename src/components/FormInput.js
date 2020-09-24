@@ -18,13 +18,26 @@ const useStyles = isTextInput => makeStyles(() => ({
     uploadButtonContainer: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        margin: '16px 0',
     },
     inputContainer: {
         maxWidth: !isTextInput && 380,
         display: 'flex',
-        alignItems: 'center',
+        flexDirection: 'column',
+        alignItems: 'left',
         justifyContent: 'flex-start'
+    },
+    formControl: {
+        width: '100%'
+    },
+    disclaimer: {
+        margin: '16px 0',
+        padding: 4,
+        border: 'solid 1px #888888',
+        borderRadius: 4,
+        color: '#888888',
+        fontSize: 14
     }
 }))();
 
@@ -72,19 +85,21 @@ MultipleChoiceInput.propTypes = {
 };
 
 function SelectInput(props) {
-    return <FormControl>
-        <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={props.value}
-            onChange={props.onChange}
-            variant="outlined"
-        >
-            {
-                props.map
-            }
-        </Select>
-    </FormControl>;
+    return (
+        <FormControl className={props.className}>
+            <Select
+                labelId="select-label"
+                id="select"
+                value={props.value}
+                onChange={props.onChange}
+                variant="outlined"
+            >
+                {
+                    props.map
+                }
+            </Select>
+        </FormControl>
+    );
 }
 
 SelectInput.propTypes = {
@@ -127,7 +142,8 @@ export default function FormInput({
     adornment,
     isCurrency,
     inputProps,
-    multiline
+    multiline,
+    disclaimer
 }) {
 
     const classes = useStyles(type === QUESTION_TYPE.TEXT);
@@ -198,9 +214,18 @@ export default function FormInput({
 
         if (type === QUESTION_TYPE.SELECT) {
             return (
-                <SelectInput value={value} onChange={handleChange}
-                             map={options.map((option, index) => <MenuItem key={index}
-                                                                           value={index}>{option}</MenuItem>)}/>
+                <SelectInput
+                    className={classes.formControl}
+                    value={value}
+                    onChange={handleChange}
+                    map={options.map((option, index) =>
+                        <MenuItem
+                            key={index}
+                            value={index}>
+                            {option}
+                        </MenuItem>
+                    )}
+                />
             )
         }
 
@@ -209,8 +234,12 @@ export default function FormInput({
                 <MultipleChoiceInput disabled={disabled} map={options.map((option, index) =>
                     <FormControlLabel
                         key={index}
-                        control={<Checkbox value={index} checked={isChecked(index)}
-                                           onChange={() => handleCheckboxChange(index)}/>}
+                        control={
+                            <Checkbox
+                                value={index}
+                                checked={isChecked(index)}
+                                onChange={() => handleCheckboxChange(index)}
+                            />}
                         label={option}
                     />)}/>
             )
@@ -245,5 +274,8 @@ export default function FormInput({
         )
     }
 
-    return <div className={classes.inputContainer}>{getInput()}</div>;
+    return <div className={classes.inputContainer}>
+        {getInput()}
+        {disclaimer && <div className={classes.disclaimer}>{disclaimer}</div>}
+    </div>;
 }
