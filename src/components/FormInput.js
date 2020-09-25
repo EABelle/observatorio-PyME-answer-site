@@ -43,7 +43,7 @@ const useStyles = isTextInput => makeStyles(() => ({
 
 function UploadFileInput(props) {
     return <div className={props.classes.uploadButtonContainer}>
-        <Button
+        { !props.disabled && <Button
             disabled={props.disabled}
             color="primary"
             variant="contained"
@@ -56,7 +56,7 @@ function UploadFileInput(props) {
                 style={{display: "none"}}
                 multiple
             />
-        </Button>
+        </Button>}
         {props.value && Object.keys(props.value).map(props.callbackfn)}
     </div>;
 }

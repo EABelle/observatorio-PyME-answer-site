@@ -14,61 +14,61 @@ export const completeForms = [
                 {
                     type: 'TEXT',
                     title: 'Nombre o razón social de la empresa',
-                    value: '',
+                    value: 'Empresa Textil SRL',
                     mandatory: true,
                 },
                 {
                     type: 'TEXT',
                     title: 'CUIT',
-                    value: '',
+                    value: '20948372901',
                     mandatory: true,
                 },
                 {
                     type: 'TEXT',
                     title: 'Domicilio',
-                    value: '',
+                    value: 'Av. Belgrano 123',
                     mandatory: true,
                 },
                 {
                     type: 'TEXT',
                     title: 'CP',
-                    value: '',
+                    value: '1234',
                     mandatory: true,
                 },
                 {
                     type: 'TEXT',
                     title: 'Localidad',
-                    value: '',
+                    value: 'CABA',
                     mandatory: true,
                 },
                 {
                     type: 'TEXT',
                     title: 'Partido / departamento',
-                    value: '',
+                    value: 'CABA',
                     mandatory: true,
                 },
                 {
                     type: 'TEXT',
                     title: 'Provincia',
-                    value: '',
+                    value: 'CABA',
                     mandatory: true,
                 },
                 {
                     type: 'TEXT',
                     title: 'Teléfono',
-                    value: '',
+                    value: '15123456',
                     mandatory: true,
                 },
                 {
                     type: 'TEXT',
                     title: 'email',
-                    value: '',
+                    value: 'contacto@empresatextil.com',
                     mandatory: true,
                 },
                 {
                     type: 'TEXT',
                     title: 'Sitio web',
-                    value: '',
+                    value: 'http;//empresatextil.com.ar',
                     mandatory: true,
                 },
             ],
@@ -79,7 +79,7 @@ export const completeForms = [
                     {
                         type: 'SELECT',
                         title: 'Actividad principal',
-                        value: '',
+                        value: 2,
                         options: [
                             "Comercialización al exterior",
                             "Fábrica",
@@ -101,13 +101,13 @@ export const completeForms = [
                     {
                         type: QUESTION_TYPE.FILE,
                         title: 'Archivo 1',
-                        value: '',
+                        value: { '0': { name: "Archivo1.pdf" } },
                         mandatory: true,
                     },
                     {
                         type: 'TEXT',
                         title: '¿En qué invirtió?',
-                        value: '',
+                        value: 'En diferentes cosas que /n ocupan /n  muchas /n lineas',
                         multiline: true,
                     },
                     {
@@ -117,31 +117,31 @@ export const completeForms = [
                             {
                                 type: QUESTION_TYPE.TEXT,
                                 title: 'Reinversión de utilidades',
-                                value: '',
+                                value: '10',
                                 adornment: '%'
                             },
                             {
                                 type: QUESTION_TYPE.TEXT,
                                 title: 'Aportes',
-                                value: '',
+                                value: '10',
                                 adornment: '%'
                             },
                             {
                                 type: QUESTION_TYPE.TEXT,
                                 title: 'Programas públicos',
-                                value: '',
+                                value: '10',
                                 adornment: '%'
                             },
                             {
                                 type: QUESTION_TYPE.TEXT,
                                 title: 'Otros',
-                                value: '',
+                                value: '70',
                                 adornment: '%'
                             },
                             {
                                 type: QUESTION_TYPE.TEXT,
                                 title: 'Especificar "Otros"',
-                                value: '',
+                                value: 'Otras cosas',
                             },
                         ],
                     },
