@@ -1,19 +1,5 @@
 import config from "./config";
-
-// TODO: Request to backend
-// import Axios from "axios";
-const Axios = {
-    create: () => ({
-        post: (path, { userName, password }) => {
-            if (userName === 'testapp' && password === '123')
-                return 'MockedToken';
-            const error = new Error('Not authorized');
-            error.response.status = 401;
-            return error;
-        },  // mocked method
-    }),
-};
-//--------------------------------------------------
+import Axios from "axios";
 
 const axios = Axios.create({
     baseURL: config.baseURL,

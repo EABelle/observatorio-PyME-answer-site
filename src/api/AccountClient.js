@@ -1,13 +1,7 @@
 import config from "./config";
 import Cookies from 'universal-cookie';
-// import Axios from "axios"; TODO
-const Axios = {
-    create: () => ({
-        get: () => ({
-            data: { name: 'Usuario', lastName: 'de Prueba' },
-        })
-    }),
-};
+import Axios from "axios";
+
 const cookies = new Cookies();
 
 const axios = Axios.create({
