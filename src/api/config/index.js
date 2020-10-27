@@ -10,7 +10,7 @@ const config = {
         baseURL: process.env.REACT_APP_CLIENT_BASE_URL || 'http://localhost:3001/api',
     },
     production: {
-        baseURL: process.env.REACT_APP_CLIENT_BASE_URL || 'http://localhost:3001/api',
+        baseURL: process.env.REACT_APP_CLIENT_BASE_URL || 'https://observatorio-pyme-answer-back.herokuapp.com/',
     },
 };
 export default config[environment];
