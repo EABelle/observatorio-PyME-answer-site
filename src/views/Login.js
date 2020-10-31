@@ -51,14 +51,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const getErrorMessage = (code) => (
-    code
-        ? code === 401
-        ? 'Usuario o contraseña incorrectos'
-        : 'Ocurrió un error'
-        : null
-);
-
 export default function Login({ location }) {
 
     const [email, setEmail] = useState('');
@@ -74,7 +66,8 @@ export default function Login({ location }) {
         try {
             await login(email, password);
         } catch(e) {
-            setError(e.response ? e.response.status : 500);
+            console.log(e.response)
+            setError(e.response ? e.response.data?.message : 'Ocurrió un error');
         }
         if(isAuthenticated()) {
             setRedirectToIndex(true);
@@ -141,7 +134,7 @@ export default function Login({ location }) {
                     </form>
                     <LoadingBar show={loading} />
                     <div className={classes.errorContainer}>
-                        { getErrorMessage(error) }
+                        { error }
                     </div>
                 </Card>
             </div>
