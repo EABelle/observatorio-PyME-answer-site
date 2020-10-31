@@ -18,4 +18,54 @@ async function getMyAccount() {
     return response.data;
 }
 
-export default { getMyAccount };
+function getUsers(filter) {
+    return axios.get('/users', {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        },
+        params: filter,
+    });
+}
+
+async function getUserById(id) {
+    const response = await axios.get(`/users/${id}`, {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        }
+    });
+    return response.data;
+}
+
+async function createUser(user) {
+    const response = await axios.post('/users', user, {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        }
+    });
+    return response.data;
+}
+async function editUser(user) {
+    const response = await axios.put('/myAccount', user, {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        }
+    });
+    return response.data;
+}
+async function deleteUser(id) {
+    const response = await axios.delete(`/users/${id}`, {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        }
+    });
+    return response.data;
+}
+
+export default {
+    getMyAccount,
+    getUsers,
+    getUserById,
+    createUser,
+    editUser,
+    deleteUser
+};
