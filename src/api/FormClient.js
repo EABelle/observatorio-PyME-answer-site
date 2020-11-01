@@ -23,6 +23,12 @@ export const getFormById = (id) => {
     return axios.get(`/polls/${id}`);
 };
 
+export const getForms = (filter) => {
+    return axios.get(`/polls`, {
+        params: filter
+    });
+};
+
 export const saveForm = (form) => {
     return axios.put(`/polls/${form.id}`, form);
 };
@@ -40,6 +46,7 @@ export const saveHelpRequest = (question) => {
 const FormClient = {
     getMyFormsByStatus,
     getFormById,
+    getForms,
     saveForm,
     closeForm,
     saveHelpRequest,

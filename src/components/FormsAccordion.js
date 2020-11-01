@@ -1,32 +1,23 @@
 import React, {useEffect, useState} from "react";
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { STATUS } from '../constants';
 import FormService from "../services/FormService";
 import PropTypes from 'prop-types';
 import LoadingBar from "./LoadingBar";
-import { FormsGrid } from "./FormsGrid";
+import {FormsGrid} from "./FormsGrid";
+import {getColorFromLabel, resolveFormStatusLabel} from "../utils";
 
 const useStyles = status => makeStyles((theme) => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: 'bold',
-    color: status === STATUS.COMPLETE ? 'green' : 
-    status === STATUS.IN_PROGRESS ? 'orange' : 'red'
+    color: getColorFromLabel(status)
   }
 }));
-
-const resolveFormStatusLabel = (status) => {
-    return (
-        status === STATUS.COMPLETE ? 'Completados'
-        : status === STATUS.IN_PROGRESS ? 'En progreso'
-        : 'Sin iniciar'
-    );
-};
 
 export function FormsAccordion({ status }) {
     const classes = useStyles(status)();

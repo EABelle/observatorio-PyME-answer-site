@@ -8,6 +8,10 @@ export const getFormById = (id) => (
     FormClient.getFormById(id)
 );
 
+export const getForms = (filter) => (
+    FormClient.getForms(filter)
+);
+
 export const saveForm = (form) => (
     FormClient.saveForm(form)
 );
@@ -23,6 +27,7 @@ export const askForHelp = async (questionId) =>
 const FormService = {
     getMyFormsByStatus,
     getFormById,
+    getForms,
     saveForm,
     sendForm,
     askForHelp,

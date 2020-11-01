@@ -6,6 +6,7 @@ import FormView from "../views/FormView";
 import UsersView from "../views/UsersView";
 import React from "react";
 import RolesView from "../views/RolesView";
+import PollsAdminView from "../views/PollsAdminView";
 
 export function MainRouter() {
     return <Router>
@@ -15,6 +16,7 @@ export function MainRouter() {
             <PrivateRoute path="/cuestionario/:id" component={FormView}/>
             <PrivateRoute path="/usuarios" component={UsersView}/>
             <PrivateRoute path="/roles" component={RolesView}/>
+            <PrivateRoute path="/cuestionarios" component={PollsAdminView}/>
             <Redirect to={{pathname: "/misCuestionarios"}}/>
         </Switch>
     </Router>;
