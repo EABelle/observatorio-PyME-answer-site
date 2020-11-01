@@ -13,3 +13,10 @@ export const QUESTION_TYPE = {
     FILE: 'FILE',
     SELECT: 'SELECT',
 };
+
+export const CRUD_ACTION = {
+    CREATE: 'CREATE',
+    READ: 'READ',
+    UPDATE: 'UPDATE',
+    DELETE: 'DELETE',
+}

@@ -66,7 +66,6 @@ export default function Login({ location }) {
         try {
             await login(email, password);
         } catch(e) {
-            console.log(e.response)
             setError(e.response ? e.response.data?.message : 'Ocurrió un error');
         }
         if(isAuthenticated()) {

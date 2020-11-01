@@ -14,7 +14,6 @@ export function ExportToPdfFAB(props) {
     const handleClick = () => {
         const input = document.getElementById('exportable');
         const inputHeightMm = input.scrollHeight * ONE_MILIMETER_IN_PIXELS + MARGIN;
-        console.log(inputHeightMm)
         html2canvas(input)
             .then((canvas) => {
                 const imgData = canvas.toDataURL('image/png');

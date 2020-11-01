@@ -45,7 +45,8 @@ async function createUser(user) {
     return response.data;
 }
 async function editUser(user) {
-    const response = await axios.put('/myAccount', user, {
+    const { id, ...payload } = user;
+    const response = await axios.put(`/users/${id}`, payload, {
         headers: {
             Authorization: cookies.get('py_auth_token')
         }
@@ -61,11 +62,60 @@ async function deleteUser(id) {
     return response.data;
 }
 
+function getRoles(filter) {
+    return axios.get('/roles', {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        },
+        params: filter,
+    });
+}
+
+async function getRoleById(id) {
+    const response = await axios.get(`/roles/${id}`, {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        }
+    });
+    return response.data;
+}
+
+async function createRole(role) {
+    const response = await axios.post('/roles', role, {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        }
+    });
+    return response.data;
+}
+async function editRole(role) {
+    const { id, ...payload } = role;
+    const response = await axios.put(`/roles/${id}`, payload, {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        }
+    });
+    return response.data;
+}
+async function deleteRole(id) {
+    const response = await axios.delete(`/roles/${id}`, {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        }
+    });
+    return response.data;
+}
+
 export default {
     getMyAccount,
     getUsers,
     getUserById,
     createUser,
     editUser,
-    deleteUser
+    deleteUser,
+    getRoles,
+    getRoleById,
+    createRole,
+    editRole,
+    deleteRole
 };
