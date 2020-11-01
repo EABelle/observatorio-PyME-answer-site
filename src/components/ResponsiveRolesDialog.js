@@ -9,7 +9,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import {MultipleSelect} from "./MultipleSelect";
+import Chip from '@material-ui/core/Chip';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import {CRUD_ACTION} from "../constants";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,22 +23,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function ResponsiveDialog({ open, onClose, onConfirm, action, user, allRoles }) {
+export default function ResponsiveDialog({ open, onClose, onConfirm, action, role }) {
     const theme = useTheme();
     const classes = useStyles();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const [name, setName] = useState(user.name || '');
-    const [email, setEmail] = useState(user.email || '');
-    const [roles, setRoles] = useState(user.roles || []);
+    const [name, setName] = useState(role.name || '');
+    const [permissions, setPermissions] = useState(role.permissions || []);
 
     useEffect(() => {
-        setName(user.name);
-        setEmail(user.email);
-        setRoles(user.roles);
-    },[user]);
+        setName(role.name);
+        setPermissions(role.permissions)
+        },[role]);
 
-    const {company, id} = user;
+    const {id} = role;
 
     const handleClose = () => {
         onClose();
@@ -46,19 +45,13 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, use
     const handleConfirm = () => {
         onConfirm({
             id,
-            company,
             name,
-            email,
-            roles
+            permissions
         });
     };
 
-    const handleRolesChange = (event) => {
-        setRoles(event.target.value);
-    };
-
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
+    const handlePermissionsChange = (event) => {
+        setPermissions(event.target.value);
     };
 
     const handleNameChange = (event) => {
@@ -83,7 +76,7 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, use
     )
 
     return (
-        user &&
+        role &&
         <div>
             <Dialog
                 fullScreen={fullScreen}
@@ -99,9 +92,22 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, use
                     </DialogContentText>
                     <form className={classes.root} noValidate autoComplete="off">
                         <TextField id="standard-basic" label="Nombre" onChange={handleNameChange} value={name} disabled={isView} />
-                        <TextField id="standard-basic" label="Email" onChange={handleEmailChange} value={email} disabled={isView} />
-                        <TextField id="standard-basic" label="Empresa" value={company?.name} disabled/>
-                        <MultipleSelect value={roles} onChange={handleRolesChange} options={allRoles} disabled={isView} label="Roles" />
+                        <Autocomplete
+                            multiple
+                            id="tags-filled"
+                            options={permissions}
+                            defaultValue={permissions}
+                            freeSolo
+                            renderTags={(value, getTagProps) =>
+                                value.map((option, index) => (
+                                    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                                ))
+                            }
+                            renderInput={(params) => (
+                                <TextField {...params} variant="filled" label="freeSolo" placeholder="Permisos" />
+                            )}
+                            onChange={handlePermissionsChange}
+                        />
                     </form>
                 </DialogContent>
                 <DialogActions>
