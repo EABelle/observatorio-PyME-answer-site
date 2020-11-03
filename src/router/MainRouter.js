@@ -7,16 +7,20 @@ import UsersView from "../views/UsersView";
 import React from "react";
 import RolesView from "../views/RolesView";
 import PollsAdminView from "../views/PollsAdminView";
+import TemplatesView from "../views/TemplatesView";
+import ConfirmUser from "../views/ConfirmUser";
 
 export function MainRouter() {
     return <Router>
         <Switch>
             <Route path="/login" component={Login}/>
+            <Route path="/confirmarUsuario" component={ConfirmUser}/>
             <PrivateRoute path="/misCuestionarios" component={MyForms}/>
             <PrivateRoute path="/cuestionario/:id" component={FormView}/>
             <PrivateRoute path="/usuarios" component={UsersView}/>
             <PrivateRoute path="/roles" component={RolesView}/>
             <PrivateRoute path="/cuestionarios" component={PollsAdminView}/>
+            <PrivateRoute path="/plantillas" component={TemplatesView}/>
             <Redirect to={{pathname: "/misCuestionarios"}}/>
         </Switch>
     </Router>;

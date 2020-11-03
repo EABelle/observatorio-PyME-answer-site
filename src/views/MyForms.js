@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography } from '@material-ui/core';
 import { FormsAccordion } from "../components/FormsAccordion"
 import { STATUS } from "../constants";
+import {getUserFromToken} from "../utils";
 
 const useStyles = makeStyles(theme => ({
     container: {

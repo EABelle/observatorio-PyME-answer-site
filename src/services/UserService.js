@@ -12,6 +12,14 @@ export const createUser = (user) => (
     AccountClient.createUser(user)
 );
 
+export const inviteUser = (user) => (
+    AccountClient.inviteUser(user)
+);
+
+export const confirmUser = (id, password) => (
+    AccountClient.confirmUser(id, password)
+);
+
 export const editUser = (user) => (
     AccountClient.editUser(user)
 );
@@ -44,6 +52,8 @@ const UserService = {
     getUsers,
     getUserById,
     createUser,
+    inviteUser,
+    confirmUser,
     editUser,
     deleteUser,
     getRoles,

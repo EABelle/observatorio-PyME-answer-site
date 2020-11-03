@@ -29,8 +29,18 @@ export const getForms = (filter) => {
     });
 };
 
+export const getTemplates = (filter) => {
+    return axios.get(`/templates`, {
+        params: filter
+    });
+};
+
 export const saveForm = (form) => {
     return axios.put(`/polls/${form.id}`, form);
+};
+
+export const createPollsFromTemplate = (templateId) => {
+    return axios.post(`/polls/fromTemplate`, {templateId});
 };
 
 export const closeForm = (id) => {
@@ -47,6 +57,8 @@ const FormClient = {
     getMyFormsByStatus,
     getFormById,
     getForms,
+    getTemplates,
+    createPollsFromTemplate,
     saveForm,
     closeForm,
     saveHelpRequest,

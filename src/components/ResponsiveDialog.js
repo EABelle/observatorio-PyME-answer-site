@@ -32,9 +32,9 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, use
     const [roles, setRoles] = useState(user.roles || []);
 
     useEffect(() => {
-        setName(user.name);
-        setEmail(user.email);
-        setRoles(user.roles);
+        setName(user.name || '');
+        setEmail(user.email || '');
+        setRoles(user.roles || []);
     },[user]);
 
     const {company, id} = user;

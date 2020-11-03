@@ -44,6 +44,25 @@ async function createUser(user) {
     });
     return response.data;
 }
+
+async function inviteUser(user) {
+    const response = await axios.post('/inviteUser', user, {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        }
+    });
+    return response.data;
+}
+
+async function confirmUser(id, password) {
+    const response = await axios.patch(`/users/${id}/confirm`, { password }, {
+        headers: {
+            Authorization: cookies.get('py_auth_token')
+        }
+    });
+    return response.data;
+}
+
 async function editUser(user) {
     const { id, ...payload } = user;
     const response = await axios.put(`/users/${id}`, payload, {
@@ -111,6 +130,8 @@ export default {
     getUsers,
     getUserById,
     createUser,
+    confirmUser,
+    inviteUser,
     editUser,
     deleteUser,
     getRoles,

@@ -12,6 +12,14 @@ export const getForms = (filter) => (
     FormClient.getForms(filter)
 );
 
+export const getTemplates = (filter) => (
+    FormClient.getTemplates(filter)
+);
+
+export const createPollsFromTemplate = (templateId) => (
+    FormClient.createPollsFromTemplate(templateId)
+);
+
 export const saveForm = (form) => (
     FormClient.saveForm(form)
 );
@@ -28,6 +36,8 @@ const FormService = {
     getMyFormsByStatus,
     getFormById,
     getForms,
+    getTemplates,
+    createPollsFromTemplate,
     saveForm,
     sendForm,
     askForHelp,

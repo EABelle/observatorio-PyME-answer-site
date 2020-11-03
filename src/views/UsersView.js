@@ -112,7 +112,7 @@ export default () => {
 
     const handleCreateUser = user => {
         setLoading(true);
-        UserService.createUser(user)
+        UserService.inviteUser(user)
             .then(() => {
                 setLoading(false);
                 setHasFetched(false);
