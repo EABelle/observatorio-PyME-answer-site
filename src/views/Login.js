@@ -11,6 +11,7 @@ import {isAuthenticated, login} from "../services/LoginService";
 import { Redirect } from 'react-router-dom';
 import LoadingBar from "../components/LoadingBar";
 import { locationShape } from "react-router-props";
+import {getRedirectUrl} from "../utils";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -51,11 +52,11 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function Login({ location }) {
+export default function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [redirectToIndex, setRedirectToIndex] = useState(isAuthenticated());
+    const [redirectUrl, setRedirectUrl] = useState(getRedirectUrl());
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -69,7 +70,7 @@ export default function Login({ location }) {
             setError(e.response ? e.response.data?.message : 'Ocurrió un error');
         }
         if(isAuthenticated()) {
-            setRedirectToIndex(true);
+            setRedirectUrl(getRedirectUrl());
         }
         setLoading(false);
     };
@@ -84,8 +85,8 @@ export default function Login({ location }) {
 
     const classes = useStyles();
 
-    if (redirectToIndex === true) {
-        return <Redirect to={{ pathname: location.state?.from || '/misCuestionarios' }} />;
+    if (redirectUrl) {
+        return <Redirect to={{ pathname: redirectUrl }} />;
     }
 
     return (

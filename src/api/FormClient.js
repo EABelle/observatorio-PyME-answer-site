@@ -13,7 +13,7 @@ const axios = Axios.create({
 
 export const getMyFormsByStatus = (status) => {
     return axios.get('/myForms', {
-        query: {
+        params: {
             status
         },
     });

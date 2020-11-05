@@ -27,27 +27,32 @@ export function FormsAccordion({ status }) {
       setExpanded((prevExpanded) => !prevExpanded);
     };
 
-    useEffect(() => {
-        fetchMyForms();
-    }, []);
-
     const [ forms, setForms ] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [hasFetched, setHasFetched] = useState(false);
 
-    const fetchMyForms = () => {
+    const fetchMyForms = async () => {
+        if(hasFetched) {
+            return;
+        }
         setError(false);
         setLoading(true);
-        FormService.getMyFormsByStatus(status)
-            .then(({data}) => {
-                setLoading(false);
-                setForms(data);
-            })
-            .catch(() => {
-                setLoading(false);
-                setError(true);
-            });
+        try {
+            const { data: response } = await FormService.getMyFormsByStatus(status);
+            setLoading(false);
+            setForms(response);
+        } catch(e) {
+            setLoading(false);
+            setError(true);
+        }
+        setHasFetched(true);
     };
+
+    useEffect(() => {
+        fetchMyForms();
+    }, [hasFetched]);
+
 
     const title = resolveFormStatusLabel(status)
 

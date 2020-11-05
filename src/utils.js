@@ -20,10 +20,25 @@ export function getColorFromLabel(status) {
 export const getUserFromToken = () => {
     const token = cookies.get('py_auth_token');
     try {
-        const decoded = jwt.verify(token, process.env.SECRET || 'oOo4GxNMMsw9OBTUMFq7oA');
-        console.log(decoded);
-        return decoded;
+        return jwt.verify(token, process.env.SECRET || 'oOo4GxNMMsw9OBTUMFq7oA');
     } catch(err) {
         console.log(err);
+    }
+}
+
+export const getRedirectUrl = () => {
+    const user = getUserFromToken();
+    if(!user || !user.permissions) {
+        return null;
+    }
+    const permissions = user.permissions;
+    if(permissions.includes("ANSWER")) {
+        return '/misCuestionarios';
+    }
+    if(permissions.includes("MANAGE_POLLS")) {
+        return '/cuestionarios';
+    }
+    if(permissions.includes("MANAGE_USERS")) {
+        return '/usuarios';
     }
 }

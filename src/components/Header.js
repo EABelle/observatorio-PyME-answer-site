@@ -5,6 +5,8 @@ import {
     Typography
 } from '@material-ui/core';
 import logo from "../logo.png";
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles(() => ({
     header: {
@@ -31,18 +33,22 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export default function Header({ onLogout, account }) {
+export default function Header({ onOpenMenu }) {
 
     const classes = useStyles();
 
     return (
         <header className={classes.header}>
             <div className={classes.items}>
+                <IconButton
+                    color="inherit"
+                    aria-label="open menu"
+                    onClick={onOpenMenu}
+                    edge="start"
+                >
+                    <MenuIcon />
+                </IconButton>
                 <img src={logo} className={classes.logo} alt="logo" />
-                <div className={classes.userContainer}>
-                    <Typography variant="subtitle1">{ `${account?.name} ${account?.lastName}` }</Typography>
-                    <Typography variant="caption" className={classes.logout} onClick={onLogout}>Cerrar Sesión</Typography>
-                </div>
             </div>
         </header>
     )

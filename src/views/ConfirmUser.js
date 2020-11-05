@@ -11,7 +11,7 @@ import {isAuthenticated, login} from "../services/LoginService";
 import LoadingBar from "../components/LoadingBar";
 import { locationShape } from "react-router-props";
 import UserService from "../services/UserService";
-import {getUserFromToken} from "../utils";
+import {getRedirectUrl, getUserFromToken} from "../utils";
 import Cookies from 'universal-cookie';
 import {Redirect} from "react-router-dom";
 const cookies = new Cookies();
@@ -85,7 +85,7 @@ export default function ConfirmUser({ location }) {
     const classes = useStyles();
 
     if (redirectToIndex === true) {
-        return <Redirect to={{ pathname: location.state?.from || '/' }} />;
+        return <Redirect to={{ pathname: getRedirectUrl() }} />;
     }
 
     return (
