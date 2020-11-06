@@ -1,4 +1,3 @@
-
 import React, {useEffect, useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography } from '@material-ui/core';
@@ -12,14 +11,9 @@ import {CRUD_ACTION} from "../constants";
 import Button from '@material-ui/core/Button';
 import FormService from "../services/FormService";
 import {getColorFromLabel, resolveFormStatusLabel} from "../utils";
+import PageContainer from "../components/PageContainer";
 
 const useStyles = makeStyles(theme => ({
-    container: {
-        marginTop: 24,
-        [theme.breakpoints.up('lg')]: {
-            marginTop: 24
-        }
-    },
     head: {
         display: 'flex',
         flexDirection: 'row',
@@ -65,12 +59,9 @@ export default () => {
     const handleViewPoll = (id) => {};
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 200 },
         { field: 'title', headerName: 'Título', width: 200 },
         { field: 'email', headerName: 'email usuario', width: 200 },
         { field: 'company', headerName: 'Empresa',  width: 200 },
-        { field: 'created', headerName: 'Creada',  width: 200 },
-        { field: 'modified', headerName: 'Modificada',  width: 200 },
         { field: 'status', headerName: 'Estado',  width: 200 },
         {
             field: 'actions',
@@ -88,7 +79,6 @@ export default () => {
     ];
 
     const rows = polls.map(poll => ({
-        id: poll.id,
         title: poll.name,
         email: poll.user?.email,
         company: poll.company?.name,
@@ -100,10 +90,11 @@ export default () => {
 
     return (
         <>
-            <Container component="main" className={classes.container}>
+            <PageContainer>
                 <Typography variant="h5" align="left" className={classes.title}>Cuestionarios</Typography>
                 <div style={{ height: 400, width: '100%' }}>
                     <DataGrid
+                        disableExtendRowFullWidth={true}
                         rows={rows}
                         columns={columns}
                         pageSize={10}
@@ -113,7 +104,7 @@ export default () => {
                         }}
                     />
                 </div>
-            </Container>
+            </PageContainer>
         </>
     )
 };

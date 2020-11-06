@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -48,6 +47,7 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, rol
             name,
             permissions
         });
+        handleClose();
     };
 
     const handlePermissionsChange = (event) => {
@@ -86,10 +86,6 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, rol
             >
                 <DialogTitle id="responsive-dialog-title">{name}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        Let Google help apps determine location. This means sending anonymous location data to
-                        Google, even when no apps are running.
-                    </DialogContentText>
                     <form className={classes.root} noValidate autoComplete="off">
                         <TextField id="standard-basic" label="Nombre" onChange={handleNameChange} value={name} disabled={isView} />
                         <Autocomplete
@@ -100,7 +96,7 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, rol
                             freeSolo
                             renderTags={(value, getTagProps) =>
                                 value.map((option, index) => (
-                                    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                                    <Chip key={`${option}_${index}`}  variant="outlined" label={option} {...getTagProps({ index })} />
                                 ))
                             }
                             renderInput={(params) => (

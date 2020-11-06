@@ -22,7 +22,6 @@ export const getUserFromToken = () => {
     try {
         return jwt.verify(token, process.env.SECRET || 'oOo4GxNMMsw9OBTUMFq7oA');
     } catch(err) {
-        console.log(err);
     }
 }
 

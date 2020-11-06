@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -51,6 +50,7 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, use
             email,
             roles
         });
+        handleClose();
     };
 
     const handleRolesChange = (event) => {
@@ -84,7 +84,6 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, use
 
     return (
         user &&
-        <div>
             <Dialog
                 fullScreen={fullScreen}
                 open={open}
@@ -93,10 +92,6 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, use
             >
                 <DialogTitle id="responsive-dialog-title">{name}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        Let Google help apps determine location. This means sending anonymous location data to
-                        Google, even when no apps are running.
-                    </DialogContentText>
                     <form className={classes.root} noValidate autoComplete="off">
                         <TextField id="standard-basic" label="Nombre" onChange={handleNameChange} value={name} disabled={isView} />
                         <TextField id="standard-basic" label="Email" onChange={handleEmailChange} value={email} disabled={isView} />
@@ -108,6 +103,5 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, use
                     { getActions() }
                 </DialogActions>
             </Dialog>
-        </div>
     );
 }

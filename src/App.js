@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import { esES } from '@material-ui/core/locale';
+
 import {MainRouter} from "./router/MainRouter";
 
 const theme = createMuiTheme({
@@ -11,7 +13,7 @@ const theme = createMuiTheme({
             contrastText: '#fff',
         },
     },
-});
+}, esES);
 
 function App() {
   return (

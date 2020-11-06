@@ -7,7 +7,6 @@ import {
     TextField
 } from '@material-ui/core';
 import logo from "../logo.png";
-import {isAuthenticated, login} from "../services/LoginService";
 import LoadingBar from "../components/LoadingBar";
 import { locationShape } from "react-router-props";
 import UserService from "../services/UserService";
@@ -55,7 +54,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function ConfirmUser({ location }) {
+export default function ConfirmUser({}) {
 
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);

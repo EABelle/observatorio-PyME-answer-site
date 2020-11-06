@@ -13,14 +13,9 @@ import ResponsiveRolesDialog from "../components/ResponsiveRolesDialog";
 import AddIcon from "@material-ui/icons/Add";
 import {CRUD_ACTION} from "../constants";
 import Button from '@material-ui/core/Button';
+import PageContainer from "../components/PageContainer";
 
 const useStyles = makeStyles(theme => ({
-    container: {
-        marginTop: 24,
-        [theme.breakpoints.up('lg')]: {
-            marginTop: 24
-        }
-    },
     head: {
         display: 'flex',
         flexDirection: 'row',
@@ -133,7 +128,6 @@ export default () => {
     };
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 200 },
         { field: 'name', headerName: 'Nombre', width: 200 },
         {
             field: 'actions',
@@ -157,14 +151,13 @@ export default () => {
     ];
 
     const rows = roles.map(role => ({
-        id: role.id,
         name: role.name,
         actions: role,
     }));
 
     return (
         <>
-            <Container component="main" className={classes.container}>
+            <PageContainer>
                 <div className={classes.head}>
                     <Typography variant="h5" align="left" className={classes.title}>Roles</Typography>
                     <Button
@@ -187,7 +180,7 @@ export default () => {
                         }}
                     />
                 </div>
-            </Container>
+            </PageContainer>
             <ResponsiveRolesDialog
                 action={modalAction}
                 open={openDialog}

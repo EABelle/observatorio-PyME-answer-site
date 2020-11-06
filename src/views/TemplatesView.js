@@ -6,21 +6,11 @@ import {CustomNoRowsOverlay} from "../components/NoRowsOverlay";
 import IconButton from '@material-ui/core/IconButton';
 import ViewIcon from '@material-ui/icons/Visibility';
 import SendIcon from '@material-ui/icons/Send';
-import ResponsiveDialog from "../components/ResponsiveDialog";
-import AddIcon from "@material-ui/icons/Add";
-import {CRUD_ACTION} from "../constants";
-import Button from '@material-ui/core/Button';
 import FormService from "../services/FormService";
-import {getColorFromLabel, resolveFormStatusLabel} from "../utils";
 import {number} from "prop-types";
+import PageContainer from "../components/PageContainer";
 
 const useStyles = makeStyles(theme => ({
-    container: {
-        marginTop: 24,
-        [theme.breakpoints.up('lg')]: {
-            marginTop: 24
-        }
-    },
     head: {
         display: 'flex',
         flexDirection: 'row',
@@ -85,7 +75,6 @@ export default () => {
     };
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 200 },
         { field: 'title', headerName: 'Título', width: 200 },
         { field: 'created', headerName: 'Creada',  width: 200 },
         { field: 'sentCount', headerName: 'Envíos',  width: 200, type: number },
@@ -108,7 +97,6 @@ export default () => {
     ];
 
     const rows = templates.map(template => ({
-        id: template.id,
         title: template.name,
         created: template.created,
         sentCount: template.sentCount,
@@ -116,7 +104,7 @@ export default () => {
     }));
 
     return (
-        <Container component="main" className={classes.container}>
+        <PageContainer>
             <Typography variant="h5" align="left" className={classes.title}>Plantillas</Typography>
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
@@ -129,6 +117,6 @@ export default () => {
                     }}
                 />
             </div>
-        </Container>
+        </PageContainer>
     )
 };

@@ -35,24 +35,23 @@ export const PrivateRoute = ({component: Component, permission, defaultUrl, ...r
     const [user, setUser] = useState(getUserFromToken());
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
+    const handleLogout = () => {
+        logout();
+        setKeepLoggedIn(isAuthenticated());
+        setUser(getUserFromToken());
+    };
+
     useEffect(() => {
         AccountClient.getMyAccount()
             .then((account) => {
                 setAccountData(account);
             })
             .catch(err => {
-                if (err.response && err.response.status === 403) {
-                    logout();
-                    setKeepLoggedIn(isAuthenticated());
+                if (err.response && err.response.status === 401) {
+                    handleLogout();
                 }
             });
     }, []);
-
-    const handleLogout = () => {
-        logout();
-        setKeepLoggedIn(isAuthenticated());
-        setUser(getUserFromToken());
-    };
 
     return (
         <Route

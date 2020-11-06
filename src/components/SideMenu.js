@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,6 +13,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import {getUserFromToken} from "../utils";
 import {useHistory} from "react-router-dom";
 import {Typography} from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles({
     list: {
@@ -54,7 +55,9 @@ const options = [
 ];
 
 export default function SideMenu({isOpen, setIsOpen, account, onLogout}) {
+    const theme = useTheme();
     const classes = useStyles();
+    const desktop = useMediaQuery(theme.breakpoints.up('lg'));
     const history = useHistory();
     const userPermissions = getUserFromToken().permissions;
 
@@ -81,13 +84,16 @@ export default function SideMenu({isOpen, setIsOpen, account, onLogout}) {
         </div>
     );
 
+    console.log(desktop)
+
     return (
         <div>
             <SwipeableDrawer
                 anchor="left"
-                open={isOpen}
+                open={desktop || isOpen}
                 onClose={() => {setIsOpen(false)}}
                 onOpen={() => {setIsOpen(true)}}
+                variant={desktop ? "persistent" : "temporary"}
             >
                 {list()}
             </SwipeableDrawer>

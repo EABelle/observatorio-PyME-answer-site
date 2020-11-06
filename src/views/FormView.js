@@ -14,15 +14,9 @@ import {ExportToPdfFAB} from "../components/ExportToPdfFAB";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import PageContainer from "../components/PageContainer";
 
 const useStyles = makeStyles(theme => ({
-    container: {
-        marginTop: 24,
-        [theme.breakpoints.up('lg')]: {
-            marginTop: 24
-        },
-        maxWidth: 800
-    },
     mapContainer: {
         width: '50%'
     },
@@ -45,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     actionsContainer: {
         width: '100%',
         display: 'flex',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-start'
     },
     sectionTitle: {
         marginBottom: 24
@@ -246,17 +240,17 @@ export default () => {
 
     return (
         <>
-            <div className={classes.actionsContainer}>
-                <Button
-                    color="primary"
-                    onClick={redirectToIndex}
-                ><ArrowBackIosIcon />Volver</Button>
-            </div>
-            <Container component="main" className={classes.container} id="exportable">
+            <PageContainer id="exportable">
+                <div className={classes.actionsContainer}>
+                    <Button
+                        color="primary"
+                        onClick={redirectToIndex}
+                    ><ArrowBackIosIcon />Volver</Button>
+                </div>
                 <Typography variant="h5" align="left" className={classes.title}>{form.name}</Typography>
                 <Typography align="left" className={classes.description}>{form.description}</Typography>
                 <div>{getQuestions()}</div>
-            </Container>
+            </PageContainer>
             <FormSnackbar
                 onClose={clearSnackbarMessage}
                 message={snackbarMessage}
