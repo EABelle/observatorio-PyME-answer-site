@@ -39,6 +39,10 @@ export const saveForm = (form) => {
     return axios.put(`/polls/${form.id}`, form);
 };
 
+export const uploadFiles = (formId, files) => {
+    return axios.post(`/polls/${formId}/files`, files);
+};
+
 export const createPollsFromTemplate = (templateId) => {
     return axios.post(`/polls/fromTemplate`, {templateId});
 };
@@ -62,6 +66,7 @@ const FormClient = {
     saveForm,
     closeForm,
     saveHelpRequest,
+    uploadFiles,
 };
 
 export default FormClient;

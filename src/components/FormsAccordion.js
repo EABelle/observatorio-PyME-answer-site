@@ -41,6 +41,7 @@ export function FormsAccordion({ status }) {
         try {
             const { data: response } = await FormService.getMyFormsByStatus(status);
             setLoading(false);
+            setError(false);
             setForms(response);
         } catch(e) {
             setLoading(false);

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import FormInput from "./FormInput";
+import FormInput from './FormInput';
 import {QUESTION_TYPE} from "../constants";
 import Button from '@material-ui/core/Button';
 import Dialog from "@material-ui/core/Dialog";
@@ -58,6 +58,7 @@ export default function FormQuestion({id, question, onChange, disabled, setLoadi
     const [confirmDialog, setConfirmDialog] = useState(false);
 
     const handleChange = (newValue, groupIndex) => {
+        console.log(newValue);
         onChange(newValue, groupIndex);
     }
 

@@ -111,6 +111,7 @@ export default () => {
         }
         setForm({...form});
         setCanSend(formIsComplete(form))
+        console.log(form);
     }
 
     const isEmpty = (question) => (

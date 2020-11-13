@@ -1,4 +1,6 @@
 import FormClient from "../api/FormClient";
+import { flatten } from "lodash";
+import {QUESTION_TYPE} from "../constants";
 
 export const getMyFormsByStatus = (status) => (
     FormClient.getMyFormsByStatus(status)
@@ -20,9 +22,31 @@ export const createPollsFromTemplate = (templateId) => (
     FormClient.createPollsFromTemplate(templateId)
 );
 
-export const saveForm = (form) => (
-    FormClient.saveForm(form)
-);
+export const uploadFiles = async (form) => {
+    let questions = flatten(form.sections.map(s => s.questions));
+    const innerQuestions = flatten(questions
+        .filter(q => q.type === QUESTION_TYPE.GROUPED)
+        .map(q => q.questions));
+    questions = [...questions.filter(q => q.type !== QUESTION_TYPE.GROUPED), ...innerQuestions];
+    const fileLists = questions
+        .filter(q => q.type === QUESTION_TYPE.FILE)
+        .map(q => q.value);
+    const files = new FormData();
+    fileLists.forEach(fileList => {
+        for (let i = 0; i < fileList.length; i++) {
+            const file = fileList.item(i);
+            files.append(`${form.id}_${i}`, file, file.name);
+        }
+    })
+    if(fileLists.length) {
+        await FormClient.uploadFiles(form.id, files);
+    }
+};
+
+export const saveForm = async (form) => {
+    await uploadFiles(form);
+    return await FormClient.saveForm(form)
+};
 
 export const sendForm = async (form) => {
     const saveFormResponse = await saveForm(form);

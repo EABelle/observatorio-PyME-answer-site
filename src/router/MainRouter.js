@@ -25,7 +25,7 @@ export function MainRouter() {
             <PrivateRoute path="/roles" permission="MANAGE_USERS" component={RolesView}/>
             <PrivateRoute path="/cuestionarios" permission="MANAGE_POLLS" component={PollsAdminView}/>
             <PrivateRoute path="/plantillas" permission="MANAGE_POLLS" component={TemplatesView}/>
-            <Redirect to={{pathname: "/notFound"}}/>
+            <Redirect to={{pathname: "/login"}}/>
         </Switch>
     </Router>;
 }

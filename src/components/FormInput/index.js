@@ -1,18 +1,16 @@
 import React from "react";
 import {TextField} from "@material-ui/core";
-import {QUESTION_TYPE} from "../constants";
+import {QUESTION_TYPE} from "../../constants";
 import Radio from '@material-ui/core/Radio';
-import Button from '@material-ui/core/Button';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import {makeStyles} from "@material-ui/core/styles";
-import * as PropTypes from "prop-types";
+import {MultipleChoiceInput} from "./MultipleChoiceInput";
+import {SelectInput} from "./SelectInput";
+import {ChoiceInput} from "./ChoiceInput";
+import {UploadFileInput} from "./UploadFileInput";
 
 const useStyles = isTextInput => makeStyles(() => ({
     uploadButtonContainer: {
@@ -41,94 +39,6 @@ const useStyles = isTextInput => makeStyles(() => ({
     }
 }))();
 
-function UploadFileInput(props) {
-    return <div className={props.classes.uploadButtonContainer}>
-        { !props.disabled && <Button
-            disabled={props.disabled}
-            color="primary"
-            variant="contained"
-            component="label"
-        >
-            Subir archivo
-            <input
-                type="file"
-                onChange={props.onChange}
-                style={{display: "none"}}
-                multiple
-            />
-        </Button>}
-        {props.value && Object.keys(props.value).map(props.callbackfn)}
-    </div>;
-}
-
-UploadFileInput.propTypes = {
-    classes: PropTypes.any,
-    disabled: PropTypes.any,
-    onChange: PropTypes.func,
-    value: PropTypes.any,
-    callbackfn: PropTypes.func
-};
-
-function MultipleChoiceInput(props) {
-    return <FormControl component="fieldset" disabled={props.disabled}>
-        <FormGroup>
-            {
-                props.map
-            }
-        </FormGroup>
-    </FormControl>;
-}
-
-MultipleChoiceInput.propTypes = {
-    disabled: PropTypes.any,
-    map: PropTypes.any
-};
-
-function SelectInput(props) {
-    return (
-        <FormControl className={props.className}>
-            <Select
-                labelId="select-label"
-                id="select"
-                value={props.value}
-                onChange={props.onChange}
-                variant="outlined"
-            >
-                {
-                    props.map
-                }
-            </Select>
-        </FormControl>
-    );
-}
-
-SelectInput.propTypes = {
-    value: PropTypes.any,
-    onChange: PropTypes.func,
-    map: PropTypes.any
-};
-
-function ChoiceInput(props) {
-    return <FormControl component="fieldset" disabled={props.disabled}>
-        <RadioGroup
-            aria-label="gender"
-            name="gender1"
-            value={props.value}
-            onChange={props.onChange}
-        >
-            {
-                props.map
-            }
-        </RadioGroup>
-    </FormControl>;
-}
-
-ChoiceInput.propTypes = {
-    disabled: PropTypes.any,
-    value: PropTypes.any,
-    onChange: PropTypes.func,
-    map: PropTypes.any
-};
 export default function FormInput({
     id,
     type,
@@ -160,8 +70,8 @@ export default function FormInput({
     };
 
     const handleFilesChange = (event) => {
-        const newValue = event.target.files;
-        onChange(newValue);
+        const files = event.target.files;
+        onChange(files);
     };
 
     const handleCheckboxChange = (index) => {
@@ -231,7 +141,10 @@ export default function FormInput({
 
         if (type === QUESTION_TYPE.MULTIPLE_CHOICE) {
             return (
-                <MultipleChoiceInput disabled={disabled} map={options.map((option, index) =>
+                <MultipleChoiceInput
+                    disabled={disabled}
+                    options={options}
+                    map={options.map((option, index) =>
                     <FormControlLabel
                         key={index}
                         control={
@@ -247,8 +160,13 @@ export default function FormInput({
 
         if (type === QUESTION_TYPE.FILE) {
             return (
-                <UploadFileInput classes={classes} disabled={disabled} onChange={handleFilesChange} value={value}
-                                 callbackfn={k => <div key={k}>{value[k].name}</div>}/>
+                <UploadFileInput
+                    classes={classes}
+                    disabled={disabled}
+                    onChange={handleFilesChange}
+                    value={value}
+                    callbackfn={k => <div key={k}>{value[k].name}</div>}
+                />
             )
         }
 

@@ -24,18 +24,20 @@ export function ExportToPdfFAB(props) {
         ;
     };
 
-    return <div className={props.classes.FABs}>
-        <div className={props.classes.FABContainer}>
-            <Fab
-                color="primary"
-                aria-label="save"
-                className={props.classes.FAB}
-                onClick={handleClick}
-            >
-                <PictureAsPdfIcon/>
-            </Fab>
+    return (
+        <div className={props.classes.FABs}>
+            <div className={props.classes.FABContainer}>
+                <Fab
+                    color="primary"
+                    aria-label="save"
+                    className={props.classes.FAB}
+                    onClick={handleClick}
+                >
+                    <PictureAsPdfIcon/>
+                </Fab>
+            </div>
         </div>
-    </div>;
+    );
 }
 
 ExportToPdfFAB.propTypes = {
