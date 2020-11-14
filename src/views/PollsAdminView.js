@@ -69,16 +69,17 @@ export default () => {
             width: 200,
             renderCell: (params) => {
                 const id = params.value;
-                return ([
-                    <IconButton aria-label="view" onClick={() => handleViewPoll(id)}>
+                return (
+                    <IconButton key={'view_' + id} aria-label="view" onClick={() => handleViewPoll(id)}>
                         <ViewIcon fontSize="small" />
                     </IconButton>
-                ])
+                )
             },
         },
     ];
 
     const rows = polls.map(poll => ({
+        id: poll.id,
         title: poll.name,
         email: poll.user?.email,
         company: poll.company?.name,

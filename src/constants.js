@@ -20,3 +20,10 @@ export const CRUD_ACTION = {
     UPDATE: 'UPDATE',
     DELETE: 'DELETE',
 }
+
+export const CRUD_ACTION_MESSAGE = {
+    [CRUD_ACTION.CREATE]: 'Crear',
+    [CRUD_ACTION.READ]: 'Ver',
+    [CRUD_ACTION.UPDATE]: 'Editar',
+    [CRUD_ACTION.DELETE]: 'Borrar',
+}

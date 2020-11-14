@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import {CRUD_ACTION} from "../constants";
+import {CRUD_ACTION, CRUD_ACTION_MESSAGE} from "../constants";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -84,7 +84,7 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, rol
                 onClose={handleClose}
                 aria-labelledby="responsive-dialog-title"
             >
-                <DialogTitle id="responsive-dialog-title">{name}</DialogTitle>
+                <DialogTitle id="responsive-dialog-title">{CRUD_ACTION_MESSAGE[action]}  Rol</DialogTitle>
                 <DialogContent>
                     <form className={classes.root} noValidate autoComplete="off">
                         <TextField id="standard-basic" label="Nombre" onChange={handleNameChange} value={name} disabled={isView} />
@@ -99,9 +99,10 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, rol
                                     <Chip key={`${option}_${index}`}  variant="outlined" label={option} {...getTagProps({ index })} />
                                 ))
                             }
-                            renderInput={(params) => (
-                                <TextField {...params} variant="filled" label="freeSolo" placeholder="Permisos" />
-                            )}
+                            renderInput={(params) => {
+                                return (
+                                <TextField {...params} variant="filled" placeholder="Permisos" disabled={isView} />
+                            )}}
                             onChange={handlePermissionsChange}
                         />
                     </form>

@@ -18,6 +18,16 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 const useStyles = makeStyles({
     list: {
         width: 250,
+    },
+    userContainer: {
+        textAlign: 'left',
+        margin: '8px 16px'
+    },
+    userName: {
+        fontWeight: 500
+    },
+    logout: {
+        cursor: 'pointer'
     }
 });
 
@@ -65,10 +75,10 @@ export default function SideMenu({isOpen, setIsOpen, account, onLogout}) {
         <div
             className={classes.list}
             role="presentation"
-            onClick={() => setIsOpen( false)}
+            onClick={() => setIsOpen(false)}
         >
             <div className={classes.userContainer}>
-                <Typography variant="subtitle1">{account?.name}</Typography>
+                <Typography variant="subtitle1" className={classes.userName}>{account?.name}</Typography>
                 <Typography variant="caption" className={classes.logout} onClick={onLogout}>Cerrar Sesión</Typography>
             </div>
             <List>
@@ -83,8 +93,6 @@ export default function SideMenu({isOpen, setIsOpen, account, onLogout}) {
             </List>
         </div>
     );
-
-    console.log(desktop)
 
     return (
         <div>

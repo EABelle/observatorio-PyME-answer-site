@@ -57,7 +57,7 @@ export default () => {
 
     useEffect(() => {
         fetchMyForms();
-    }, [hasFetched]);
+    }, []);
 
     const handleViewTemplate = (template) => {};
     const handleMassiveSend = (templateId) => {
@@ -84,19 +84,22 @@ export default () => {
             width: 200,
             renderCell: (params) => {
                 const template = params.value;
-                return ([
-                    <IconButton aria-label="view" onClick={() => handleViewTemplate(template)}>
-                        <ViewIcon fontSize="small" />
-                    </IconButton>,
-                    <IconButton aria-label="view" onClick={() => handleMassiveSend(template.id)}>
-                        <SendIcon fontSize="small" />
-                    </IconButton>
-                ])
+                return (
+                    <div key={template.id}>
+                        <IconButton key={'view' + template.id} aria-label="view" onClick={() => handleViewTemplate(template)}>
+                            <ViewIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton key={'send_' + template.id} aria-label="send" onClick={() => handleMassiveSend(template.id)}>
+                            <SendIcon fontSize="small" />
+                        </IconButton>
+                    </div>
+                )
             },
         },
     ];
 
     const rows = templates.map(template => ({
+        id: template.id,
         title: template.name,
         created: template.created,
         sentCount: template.sentCount,

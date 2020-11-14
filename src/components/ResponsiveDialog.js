@@ -9,7 +9,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {MultipleSelect} from "./MultipleSelect";
-import {CRUD_ACTION} from "../constants";
+import {CRUD_ACTION, CRUD_ACTION_MESSAGE} from "../constants";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -90,7 +90,7 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, use
                 onClose={handleClose}
                 aria-labelledby="responsive-dialog-title"
             >
-                <DialogTitle id="responsive-dialog-title">{name}</DialogTitle>
+                <DialogTitle id="responsive-dialog-title">{CRUD_ACTION_MESSAGE[action]} Usuario</DialogTitle>
                 <DialogContent>
                     <form className={classes.root} noValidate autoComplete="off">
                         <TextField id="standard-basic" label="Nombre" onChange={handleNameChange} value={name} disabled={isView} />

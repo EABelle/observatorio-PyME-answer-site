@@ -22,12 +22,6 @@ const useStyles = makeStyles(() => ({
     logo: {
         width: 155
     },
-    userContainer: {
-        textAlign: 'right'
-    },
-    logout: {
-        cursor: 'pointer'
-    }
 }));
 
 export default function Header({ onOpenMenu }) {
