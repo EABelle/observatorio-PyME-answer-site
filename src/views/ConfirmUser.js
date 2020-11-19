@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function ConfirmUser({}) {
+export default function ConfirmUser() {
 
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);

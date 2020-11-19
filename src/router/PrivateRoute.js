@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SideMenu from "../components/SideMenu";
 import {getUserFromToken} from "../utils";
+import {intersection} from "lodash";
 
 const RedirectToLogin = props => (
     <Redirect to={{
@@ -29,7 +30,7 @@ const RedirectToDefaultUrl = props => (
     }}
     />
 )
-export const PrivateRoute = ({component: Component, permission, defaultUrl, ...rest}) => {
+export const PrivateRoute = ({component: Component, permissions, defaultUrl, ...rest}) => {
     const [accountData, setAccountData] = useState();
     const [keepLoggedIn, setKeepLoggedIn] = useState(isAuthenticated());
     const [user, setUser] = useState(getUserFromToken());
@@ -63,7 +64,7 @@ export const PrivateRoute = ({component: Component, permission, defaultUrl, ...r
                 if (!user?.confirmed) {
                     return <RedirectToConfirmUser location={props.location}/>
                 }
-                if(permission && !user?.permissions.includes(permission)) {
+                if(permissions && permissions.length && !intersection(user?.permissions, permissions).length) {
                     return <RedirectToDefaultUrl location={props.location} defaultUrl={defaultUrl} />
                 }
                 return (

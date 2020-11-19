@@ -18,8 +18,16 @@ export const getTemplates = (filter) => (
     FormClient.getTemplates(filter)
 );
 
-export const createPollsFromTemplate = (templateId) => (
-    FormClient.createPollsFromTemplate(templateId)
+export const getTemplateById = (id) => (
+    FormClient.getTemplateById(id)
+);
+
+export const getPolledUsers = (templateId) => (
+    FormClient.getPolledUsers(templateId)
+);
+
+export const createPollsFromTemplate = (templateId, userIds) => (
+    FormClient.createPollsFromTemplate(templateId, userIds)
 );
 
 export const uploadFiles = async (form) => {
@@ -61,6 +69,8 @@ const FormService = {
     getFormById,
     getForms,
     getTemplates,
+    getTemplateById,
+    getPolledUsers,
     createPollsFromTemplate,
     saveForm,
     sendForm,

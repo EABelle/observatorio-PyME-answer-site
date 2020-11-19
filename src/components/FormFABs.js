@@ -6,7 +6,7 @@ import React from "react";
 
 export function FormFABs(props) {
     return <div className={props.classes.FABs}>
-        <div className={props.classes.FABContainer}>
+        { !props.isTemplate && <div className={props.classes.FABContainer}>
             <Fab
                 color="primary"
                 aria-label="save"
@@ -16,14 +16,14 @@ export function FormFABs(props) {
             >
                 <SaveIcon/>
             </Fab>
-        </div>
+        </div> }
         <div className={props.classes.FABContainer}>
             <Fab
                 color="primary"
                 variant="extended"
                 aria-label="send"
                 className={props.classes.FAB}
-                disabled={!props.canSend}
+                disabled={!props.isTemplate && !props.canSend}
                 onClick={props.onClickSend}
             >
                 <SendIcon/>
@@ -37,5 +37,6 @@ FormFABs.propTypes = {
     classes: PropTypes.any,
     onClick: PropTypes.func,
     canSend: PropTypes.bool,
-    onClick1: PropTypes.func
+    onClick1: PropTypes.func,
+    isTemplate: PropTypes.bool,
 };

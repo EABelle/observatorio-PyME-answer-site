@@ -86,7 +86,7 @@ export default function ResponsiveDialog({ open, onClose, onConfirm, action, rol
             >
                 <DialogTitle id="responsive-dialog-title">{CRUD_ACTION_MESSAGE[action]}  Rol</DialogTitle>
                 <DialogContent>
-                    <form className={classes.root} noValidate autoComplete="off">
+                    <form className={classes.root} noValidate autoComplete="on">
                         <TextField id="standard-basic" label="Nombre" onChange={handleNameChange} value={name} disabled={isView} />
                         <Autocomplete
                             multiple

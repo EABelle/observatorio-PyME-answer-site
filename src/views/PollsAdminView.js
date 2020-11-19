@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import FormService from "../services/FormService";
 import {getColorFromLabel, resolveFormStatusLabel} from "../utils";
 import PageContainer from "../components/PageContainer";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     head: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 export default () => {
 
     const classes = useStyles();
-
+    const history = useHistory();
     const [ polls, setPolls ] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -56,7 +57,9 @@ export default () => {
         fetchMyForms();
     }, []);
 
-    const handleViewPoll = (id) => {};
+    const handleViewPoll = (id) => {
+        history.push(`/cuestionario/${id}`);
+    };
 
     const columns = [
         { field: 'title', headerName: 'Título', width: 200 },
@@ -68,7 +71,7 @@ export default () => {
             headerName: 'Acciones',
             width: 200,
             renderCell: (params) => {
-                const id = params.value;
+                const id = params.value.id;
                 return (
                     <IconButton key={'view_' + id} aria-label="view" onClick={() => handleViewPoll(id)}>
                         <ViewIcon fontSize="small" />

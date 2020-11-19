@@ -52,7 +52,7 @@ export function FormsAccordion({ status }) {
 
     useEffect(() => {
         fetchMyForms();
-    }, []);
+    }, [hasFetched]);
 
 
     const title = resolveFormStatusLabel(status)

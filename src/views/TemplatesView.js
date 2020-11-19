@@ -9,6 +9,7 @@ import SendIcon from '@material-ui/icons/Send';
 import FormService from "../services/FormService";
 import {number} from "prop-types";
 import PageContainer from "../components/PageContainer";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     head: {
@@ -35,6 +36,7 @@ export default () => {
     const [error, setError] = useState(false);
     const [filter, setFilter] = useState({});
     const [hasFetched, setHasFetched] = useState(false);
+    const history = useHistory();
 
     const fetchMyForms = () => {
         if(hasFetched) {
@@ -59,7 +61,10 @@ export default () => {
         fetchMyForms();
     }, []);
 
-    const handleViewTemplate = (template) => {};
+    const handleViewTemplate = (templateId) => {
+        history.push(`/plantilla/${templateId}`);
+    };
+
     const handleMassiveSend = (templateId) => {
         setError(false);
         setLoading(true);
@@ -86,7 +91,7 @@ export default () => {
                 const template = params.value;
                 return (
                     <div key={template.id}>
-                        <IconButton key={'view' + template.id} aria-label="view" onClick={() => handleViewTemplate(template)}>
+                        <IconButton key={'view' + template.id} aria-label="view" onClick={() => handleViewTemplate(template.id)}>
                             <ViewIcon fontSize="small" />
                         </IconButton>
                         <IconButton key={'send_' + template.id} aria-label="send" onClick={() => handleMassiveSend(template.id)}>

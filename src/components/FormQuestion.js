@@ -51,7 +51,17 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export default function FormQuestion({id, question, onChange, disabled, setLoading, setMessage, setError, sectionIndex}) {
+export default function FormQuestion(
+    {
+        id,
+        question,
+        onChange,
+        disabled,
+        setLoading,
+        setMessage,
+        setError,
+        sectionIndex
+    }) {
 
     const classes = useStyles();
 

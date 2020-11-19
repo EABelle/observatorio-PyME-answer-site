@@ -23,6 +23,14 @@ export const getFormById = (id) => {
     return axios.get(`/polls/${id}`);
 };
 
+export const getTemplateById = (id) => {
+    return axios.get(`/templates/${id}`);
+};
+
+export const getPolledUsers = (templateId) => {
+    return axios.get(`/templates/${templateId}/users`);
+}
+
 export const getForms = (filter) => {
     return axios.get(`/polls`, {
         params: filter
@@ -43,8 +51,8 @@ export const uploadFiles = (formId, files) => {
     return axios.post(`/polls/${formId}/files`, files);
 };
 
-export const createPollsFromTemplate = (templateId) => {
-    return axios.post(`/polls/fromTemplate`, {templateId});
+export const createPollsFromTemplate = (templateId, userIds) => {
+    return axios.post(`/polls/fromTemplate`, {templateId, userIds});
 };
 
 export const closeForm = (id) => {
@@ -62,6 +70,8 @@ const FormClient = {
     getFormById,
     getForms,
     getTemplates,
+    getTemplateById,
+    getPolledUsers,
     createPollsFromTemplate,
     saveForm,
     closeForm,
