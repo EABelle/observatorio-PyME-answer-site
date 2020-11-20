@@ -1,14 +1,14 @@
-
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import logo from "../logo.png";
+import logo from "../logo-transparent.png";
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles(() => ({
     header: {
-        backgroundImage: 'url(header-background.jpg)',
         height: 120,
+        margin: 0,
+        padding: 0,
     },
     items: {
         width: '90%',
@@ -17,7 +17,6 @@ const useStyles = makeStyles(() => ({
         justifyContent: 'space-between',
         height: '100%',
         margin: '0 auto',
-        padding: '0 24px'
     },
     logo: {
         width: 155

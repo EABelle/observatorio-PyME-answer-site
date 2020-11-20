@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { FormsAccordion } from "../components/FormsAccordion"
 import { STATUS } from "../constants";
 import PageContainer from "../components/PageContainer";
@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export default () => {
+export default function MyForms() {
 
     const classes = useStyles();
 

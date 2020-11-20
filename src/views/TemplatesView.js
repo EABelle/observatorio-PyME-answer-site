@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default () => {
+export default function TemplatesView() {
 
     const classes = useStyles();
 

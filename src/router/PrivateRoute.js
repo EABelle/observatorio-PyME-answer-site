@@ -72,7 +72,6 @@ export const PrivateRoute = ({component: Component, permissions, defaultUrl, ...
                         <Header onOpenMenu={() => setIsMenuOpen(true)} />
                         <SideMenu onLogout={handleLogout} account={accountData} location={props.location} isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
                         <Component account={accountData} {...props} />
-                        <Footer/>
                     </div>
                 )
             }}

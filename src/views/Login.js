@@ -19,7 +19,8 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        backgroundColor: theme.palette.primary.main,
+        color: '#fff'
     },
     appLogo: {
         width: 200,
@@ -35,11 +36,14 @@ const useStyles = makeStyles(theme => ({
     formContainer: {
         display: 'flex',
         alignItems: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        flex: 1,
+        justifyContent: 'center',
     },
     loginCard: {
         padding: '20px 24px',
-        maxWidth: 420
+        maxWidth: 420,
+        marginBottom: 130,
     },
     errorContainer: {
         width: '100%',
@@ -91,8 +95,8 @@ export default function Login() {
 
     return (
         <Container component="main" className={classes.container}>
+            <img src={logo} className={classes.appLogo} alt="logo" />
             <div className={classes.formContainer}>
-                <img src={logo} className={classes.appLogo} alt="logo" />
                 <h2 className={classes.title}>
                     Ingresar a mi cuenta
                 </h2>

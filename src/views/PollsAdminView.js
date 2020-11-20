@@ -1,16 +1,12 @@
 import React, {useEffect, useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 import {CustomNoRowsOverlay} from "../components/NoRowsOverlay";
 import IconButton from '@material-ui/core/IconButton';
 import ViewIcon from '@material-ui/icons/Visibility';
-import ResponsiveDialog from "../components/ResponsiveDialog";
-import AddIcon from "@material-ui/icons/Add";
-import {CRUD_ACTION} from "../constants";
-import Button from '@material-ui/core/Button';
 import FormService from "../services/FormService";
-import {getColorFromLabel, resolveFormStatusLabel} from "../utils";
+import {resolveFormStatusLabel} from "../utils";
 import PageContainer from "../components/PageContainer";
 import {useHistory} from "react-router-dom";
 
@@ -30,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default () => {
+export default function PollsAdminView() {
 
     const classes = useStyles();
     const history = useHistory();
@@ -93,22 +89,20 @@ export default () => {
     }));
 
     return (
-        <>
-            <PageContainer>
-                <Typography variant="h5" align="left" className={classes.title}>Cuestionarios</Typography>
-                <div style={{ height: 400, width: '100%' }}>
-                    <DataGrid
-                        disableExtendRowFullWidth={true}
-                        rows={rows}
-                        columns={columns}
-                        pageSize={10}
-                        loading={loading}
-                        components={{
-                            noRowsOverlay: CustomNoRowsOverlay,
-                        }}
-                    />
-                </div>
-            </PageContainer>
-        </>
+        <PageContainer>
+            <Typography variant="h5" align="left" className={classes.title}>Cuestionarios</Typography>
+            <div style={{ height: 400, width: '100%' }}>
+                <DataGrid
+                    disableExtendRowFullWidth={true}
+                    rows={rows}
+                    columns={columns}
+                    pageSize={10}
+                    loading={loading}
+                    components={{
+                        noRowsOverlay: CustomNoRowsOverlay,
+                    }}
+                />
+            </div>
+        </PageContainer>
     )
 };

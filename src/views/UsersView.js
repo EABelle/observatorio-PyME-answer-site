@@ -1,7 +1,6 @@
-
 import React, {useEffect, useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import UserService from "../services/UserService";
 import { DataGrid } from '@material-ui/data-grid';
 import {CustomNoRowsOverlay} from "../components/NoRowsOverlay";
@@ -31,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default () => {
+export default function UsersView() {
 
     const classes = useStyles();
     const [ users, setUsers ] = useState([]);

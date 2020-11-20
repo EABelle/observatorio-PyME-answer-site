@@ -27,12 +27,10 @@ export function SendTemplateDialog(props) {
 
     const handleChange = (event) => {
         const value = event.target.value;
-        console.log(value)
         setUsersToSend(value);
     }
 
     function getUserIdsFromEmails() {
-        console.log(usersToSend)
         usersToSend.map(email => props.users.find(user => user.email === email).id)
     }
 
