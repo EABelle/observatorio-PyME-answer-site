@@ -13,6 +13,7 @@ import AddIcon from "@material-ui/icons/Add";
 import {CRUD_ACTION} from "../constants";
 import Button from '@material-ui/core/Button';
 import PageContainer from "../components/PageContainer";
+import {ErrorOverlay} from "../components/ErrorOverlay";
 
 const useStyles = makeStyles(theme => ({
     head: {
@@ -134,17 +135,19 @@ export default function RolesView() {
             width: 200,
             renderCell: (params) => {
                 const role = params.value;
-                return ([
-                    <IconButton aria-label="view" onClick={() => handleViewModal(role)}>
-                        <ViewIcon fontSize="small" />
-                    </IconButton>,
-                    <IconButton aria-label="edit" onClick={() => handleEditModal(role)}>
-                        <EditIcon fontSize="small" />
-                    </IconButton>,
-                    <IconButton aria-label="delete" onClick={() => handleDelete(role.id)}>
-                        <DeleteIcon fontSize="small" />
-                    </IconButton>,
-                ])
+                return (
+                    <div key={role.id}>
+                        <IconButton aria-label="view" onClick={() => handleViewModal(role)}>
+                            <ViewIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton aria-label="edit" onClick={() => handleEditModal(role)}>
+                            <EditIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton aria-label="delete" onClick={() => handleDelete(role.id)}>
+                            <DeleteIcon fontSize="small" />
+                        </IconButton>
+                    </div>
+                )
             },
         },
     ];
@@ -175,7 +178,7 @@ export default function RolesView() {
                         pageSize={10}
                         loading={loading}
                         components={{
-                            noRowsOverlay: CustomNoRowsOverlay,
+                            noRowsOverlay: error ? ErrorOverlay : CustomNoRowsOverlay,
                         }}
                     />
                 </div>

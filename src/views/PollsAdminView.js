@@ -9,6 +9,7 @@ import FormService from "../services/FormService";
 import {resolveFormStatusLabel} from "../utils";
 import PageContainer from "../components/PageContainer";
 import {useHistory} from "react-router-dom";
+import {ErrorOverlay} from "../components/ErrorOverlay";
 
 const useStyles = makeStyles(theme => ({
     head: {
@@ -33,12 +34,11 @@ export default function PollsAdminView() {
     const [ polls, setPolls ] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [filter, setFilter] = useState({});
 
     const fetchMyForms = () => {
         setError(false);
         setLoading(true);
-        FormService.getForms(filter)
+        FormService.getForms()
             .then(({data}) => {
                 setLoading(false);
                 setPolls(data);
@@ -99,7 +99,7 @@ export default function PollsAdminView() {
                     pageSize={10}
                     loading={loading}
                     components={{
-                        noRowsOverlay: CustomNoRowsOverlay,
+                        noRowsOverlay: error ? ErrorOverlay : CustomNoRowsOverlay,
                     }}
                 />
             </div>

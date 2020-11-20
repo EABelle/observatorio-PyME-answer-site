@@ -13,6 +13,7 @@ import AddIcon from "@material-ui/icons/Add";
 import {CRUD_ACTION} from "../constants";
 import Button from '@material-ui/core/Button';
 import PageContainer from "../components/PageContainer";
+import {ErrorOverlay} from "../components/ErrorOverlay";
 
 const useStyles = makeStyles(theme => ({
     head: {
@@ -37,7 +38,6 @@ export default function UsersView() {
     const [ roles, setRoles ] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [filter, setFilter] = useState({});
     const [hasFetched, setHasFetched] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedUser, setSelectedUser] = useState({});
@@ -50,7 +50,7 @@ export default function UsersView() {
         setError(false);
         setLoading(true);
         try {
-            const {data: usersResponse} = await UserService.getUsers(filter);
+            const {data: usersResponse} = await UserService.getUsers();
             const {data: rolesResponse} = await UserService.getRoles();
             setLoading(false);
             setUsers(usersResponse);
@@ -140,17 +140,19 @@ export default function UsersView() {
             width: 200,
             renderCell: (params) => {
                 const user = params.value;
-                return ([
-                    <IconButton aria-label="view" onClick={() => handleViewModal(user)}>
-                        <ViewIcon fontSize="small" />
-                    </IconButton>,
-                    <IconButton aria-label="edit" onClick={() => handleEditModal(user)}>
-                        <EditIcon fontSize="small" />
-                    </IconButton>,
-                    <IconButton aria-label="delete" onClick={() => handleDelete(user.id)}>
-                        <DeleteIcon fontSize="small" />
-                    </IconButton>,
-                ])
+                return (
+                    <div key={user.id}>
+                        <IconButton aria-label="view" onClick={() => handleViewModal(user)}>
+                            <ViewIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton aria-label="edit" onClick={() => handleEditModal(user)}>
+                            <EditIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton aria-label="delete" onClick={() => handleDelete(user.id)}>
+                            <DeleteIcon fontSize="small" />
+                        </IconButton>
+                    </div>
+                )
             },
         },
     ];
@@ -183,7 +185,7 @@ export default function UsersView() {
                         pageSize={10}
                         loading={loading}
                         components={{
-                            noRowsOverlay: CustomNoRowsOverlay,
+                            noRowsOverlay: error ? ErrorOverlay : CustomNoRowsOverlay,
                         }}
                     />
                 </div>

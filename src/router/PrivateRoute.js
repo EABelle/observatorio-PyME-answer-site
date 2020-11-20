@@ -3,7 +3,6 @@ import {isAuthenticated, logout} from "../services/LoginService";
 import AccountClient from "../api/AccountClient";
 import {Redirect, Route} from "react-router-dom";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 import SideMenu from "../components/SideMenu";
 import {getUserFromToken} from "../utils";
 import {intersection} from "lodash";

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 import {CustomNoRowsOverlay} from "../components/NoRowsOverlay";
 import IconButton from '@material-ui/core/IconButton';
@@ -10,6 +10,7 @@ import FormService from "../services/FormService";
 import {number} from "prop-types";
 import PageContainer from "../components/PageContainer";
 import {useHistory} from "react-router-dom";
+import {ErrorOverlay} from "../components/ErrorOverlay";
 
 const useStyles = makeStyles(theme => ({
     head: {
@@ -34,7 +35,6 @@ export default function TemplatesView() {
     const [ templates, setTemplates ] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [filter, setFilter] = useState({});
     const [hasFetched, setHasFetched] = useState(false);
     const history = useHistory();
 
@@ -44,7 +44,7 @@ export default function TemplatesView() {
         }
         setError(false);
         setLoading(true);
-        FormService.getTemplates(filter)
+        FormService.getTemplates()
             .then(({data}) => {
                 setLoading(false);
                 setTemplates(data);
@@ -91,10 +91,10 @@ export default function TemplatesView() {
                 const template = params.value;
                 return (
                     <div key={template.id}>
-                        <IconButton key={'view' + template.id} aria-label="view" onClick={() => handleViewTemplate(template.id)}>
+                        <IconButton aria-label="view" onClick={() => handleViewTemplate(template.id)}>
                             <ViewIcon fontSize="small" />
                         </IconButton>
-                        <IconButton key={'send_' + template.id} aria-label="send" onClick={() => handleMassiveSend(template.id)}>
+                        <IconButton aria-label="send" onClick={() => handleMassiveSend(template.id)}>
                             <SendIcon fontSize="small" />
                         </IconButton>
                     </div>
@@ -121,7 +121,7 @@ export default function TemplatesView() {
                     pageSize={10}
                     loading={loading}
                     components={{
-                        noRowsOverlay: CustomNoRowsOverlay,
+                        noRowsOverlay: error ? ErrorOverlay : CustomNoRowsOverlay,
                     }}
                 />
             </div>
