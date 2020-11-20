@@ -136,7 +136,7 @@ export default function RolesView() {
             renderCell: (params) => {
                 const role = params.value;
                 return (
-                    <div key={role.id}>
+                    <div>
                         <IconButton aria-label="view" onClick={() => handleViewModal(role)}>
                             <ViewIcon fontSize="small" />
                         </IconButton>

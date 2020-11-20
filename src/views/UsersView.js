@@ -141,7 +141,7 @@ export default function UsersView() {
             renderCell: (params) => {
                 const user = params.value;
                 return (
-                    <div key={user.id}>
+                    <div>
                         <IconButton aria-label="view" onClick={() => handleViewModal(user)}>
                             <ViewIcon fontSize="small" />
                         </IconButton>
